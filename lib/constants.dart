@@ -1,0 +1,37 @@
+import 'package:flutter/material.dart';
+
+const kPrimaryColor = Color(0xff00349A);
+const kAccentColor = Color(0xff21A58F);
+
+const kRegisterPageOne = "registerpageone";
+const kRegisterPageTwo = "registerpagetwo";
+const kRegisterPageThree = "registerpagethree";
+const kOtpVerification = "otpverification";
+const kContinueRegistration = "continueregistration";
+const kCompleteRegistration = "completeregistration";
+const kLogin = "login";
+const kResetPassword = "resetpassword";
+const kChangePassword = "changepassword";
+const kCreateUserAccount = "createuseraccount";
+const kDashboard = "dashboard";
+const kProfile = "profile";
+const kBookings = "bookings";
+const kBookingsDetail = "bookingsdetails";
+const kWalletHistoryDetail = "wallethistorydetail";
+const kWithdrawFunds = "withdrawfunds";
+const kFundWallet = "fundwallet";
+const kWalletVoucherAmount = "walletvoucheramount";
+const kWalletVoucherCode = "walletvouchercode";
+const kListOptions = "listoptions";
+const kApartmentListings = "apartmentlistings";
+const kEventListings = "eventlistings";
+const kMyApartments = "myapartments";
+const kMyEvents = "myevents";
+const kMyApartmentDetail = "myapartmentdetail";
+const kMyEventDetails = "myeventdetails";
+const kEvents = "events";
+const kEventDetails = " eventdetails";
+const kSearch = "search";
+const kApartmentDetail = "apartmentdetail";
+const kHoliday = "holiday";
+const kAddsOn = "addson";
