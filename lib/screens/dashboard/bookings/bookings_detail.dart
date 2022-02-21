@@ -59,19 +59,19 @@ class _BookingsDetailsState extends State<BookingsDetails> {
 
 class BookingsDetailItem extends StatelessWidget {
   Booking bookingData = Booking();
-  String checkinDateFormat;
-  String checkoutDateFormat;
+  String? checkinDateFormat;
+  String? checkoutDateFormat;
 
   BookingsDetailItem({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    bookingData = ModalRoute.of(context).settings.arguments;
+    bookingData = ModalRoute.of(context)!.settings.arguments as Booking;
 
-    DateTime checkInDate = DateTime.parse(bookingData.checkInDate);
-    DateTime checkOutDate = DateTime.parse(bookingData.checkOutDate);
+    DateTime checkInDate = DateTime.parse(bookingData.checkInDate!);
+    DateTime checkOutDate = DateTime.parse(bookingData.checkOutDate!);
 
     checkinDateFormat = DateFormat.yMd().format(checkInDate);
     checkoutDateFormat = DateFormat.yMd().format(checkOutDate);
@@ -100,7 +100,7 @@ class BookingsDetailItem extends StatelessWidget {
               ),
               // subtitle: Text("Victoria Island, Lagos."),
               trailing: Text(
-                checkinDateFormat,
+                checkinDateFormat!,
                 style: TextStyle(
                     fontFamily: 'Gilroy',
                     color: Colors.grey,
@@ -124,7 +124,7 @@ class BookingsDetailItem extends StatelessWidget {
               ),
               // subtitle: Text("Victoria Island, Lagos."),
               trailing: Text(
-                checkoutDateFormat,
+                checkoutDateFormat!,
                 style: TextStyle(
                     fontFamily: 'Gilroy',
                     color: Colors.grey,

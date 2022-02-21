@@ -28,30 +28,30 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
 
   Future<void> _submit() async {
     FocusScope.of(context).unfocus();
-    if (!_registerFormKey.currentState.validate()) {
+    if (!_registerFormKey.currentState!.validate()) {
       Get.snackbar('Error!', 'Please complete the missing fields',
           barBlur: 0,
-          dismissDirection: SnackDismissDirection.VERTICAL,
+          dismissDirection: DismissDirection.vertical,
           backgroundColor: Colors.red,
           overlayBlur: 0,
           animationDuration: Duration(milliseconds: 500),
           duration: Duration(seconds: 2));
       return;
     }
-    _registerFormKey.currentState.save();
+    _registerFormKey.currentState!.save();
 
     setState(() {
       _isLoading = true;
     });
 
     try {
-      await Provider.of<Auth>(context, listen: false).sendOtp(userModel.email);
+      await Provider.of<Auth>(context, listen: false).sendOtp(userModel.email!);
       Navigator.of(context)
           .pushNamed(kOtpVerification, arguments: {"user": userModel});
     } on HttpException catch (error) {
       Get.snackbar('Error!', '${error.toString()}',
           barBlur: 0,
-          dismissDirection: SnackDismissDirection.VERTICAL,
+          dismissDirection: DismissDirection.vertical,
           backgroundColor: Colors.red,
           overlayBlur: 0,
           animationDuration: Duration(milliseconds: 500),
@@ -59,7 +59,7 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
     } catch (error) {
       Get.snackbar('Error!', 'Registration Failed, Please try again later',
           barBlur: 0,
-          dismissDirection: SnackDismissDirection.VERTICAL,
+          dismissDirection: DismissDirection.vertical,
           backgroundColor: Colors.red,
           overlayBlur: 0,
           animationDuration: Duration(milliseconds: 500),
@@ -135,7 +135,7 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
                 CustomTextFormField(
                   labelText: "Name",
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return "Name required";
                     }
                   },
@@ -146,7 +146,7 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
                 CustomTextFormField(
                   labelText: "Email address",
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return "Email required";
                     }
                   },
@@ -157,7 +157,7 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
                 CustomTextFormField(
                   labelText: "Phone number",
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return "Phone number required";
                     }
                   },
@@ -179,7 +179,7 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
                   //     },
                   controller: _passwordController,
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return "Password can't be empty";
                     }
                   },

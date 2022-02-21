@@ -3,9 +3,9 @@ import 'package:pebbles/constants.dart';
 
 class RoundedRaisedButton extends StatelessWidget {
   bool isLoading;
-  String label;
+  String? label;
   Color labelColor, buttonColor;
-  Function onPressed;
+  final void Function()? onPressed;
 
   RoundedRaisedButton(
       {this.label,
@@ -36,7 +36,7 @@ class RoundedRaisedButton extends StatelessWidget {
                 ),
               )
             : Text(
-                label,
+                label!,
                 style: TextStyle(color: labelColor),
               ),
       ),

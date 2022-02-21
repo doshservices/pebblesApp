@@ -23,7 +23,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   TextEditingController textEditingController = TextEditingController();
   String currentText = "";
   bool _isLoading = false;
-  StreamController<ErrorAnimationType> errorController;
+  StreamController<ErrorAnimationType>? errorController;
   bool _isDigitComplete = false;
   bool _isResendingOtp = false;
   bool _isValidatingOtp = false;
@@ -34,7 +34,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     if (currentText.isEmpty) {
       Get.snackbar('Error!', 'Enter valid OTP',
           barBlur: 0,
-          dismissDirection: SnackDismissDirection.VERTICAL,
+          dismissDirection: DismissDirection.vertical,
           backgroundColor: Colors.red,
           overlayBlur: 0,
           animationDuration: Duration(milliseconds: 500),
@@ -73,7 +73,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     } on HttpException catch (error) {
       Get.snackbar('Error!', '${error.toString()}',
           barBlur: 0,
-          dismissDirection: SnackDismissDirection.VERTICAL,
+          dismissDirection: DismissDirection.vertical,
           backgroundColor: Colors.red,
           overlayBlur: 0,
           animationDuration: Duration(milliseconds: 500),
@@ -81,7 +81,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     } catch (error) {
       Get.snackbar('Error!', 'Registration Failed, Please try again later',
           barBlur: 0,
-          dismissDirection: SnackDismissDirection.VERTICAL,
+          dismissDirection: DismissDirection.vertical,
           backgroundColor: Colors.red,
           overlayBlur: 0,
           animationDuration: Duration(milliseconds: 500),
@@ -96,7 +96,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     final arguments =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     user = arguments["user"];
     return Scaffold(
       appBar: AppBar(
@@ -164,6 +164,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   // } else {
                   //   return null;
                   // }
+                  return '';
                 },
                 pinTheme: PinTheme(
                   shape: PinCodeFieldShape.underline,
@@ -235,12 +236,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                 _isResendingOtp = true;
                               });
                               await Provider.of<Auth>(context, listen: false)
-                                  .sendOtp(user.email);
+                                  .sendOtp(user.email!);
                             } catch (error) {
                               Get.snackbar('Error!', '${error.toString()}',
                                   barBlur: 0,
                                   dismissDirection:
-                                      SnackDismissDirection.VERTICAL,
+                                      DismissDirection.vertical,
                                   backgroundColor: Colors.red,
                                   overlayBlur: 0,
                                   animationDuration:

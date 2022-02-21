@@ -1,8 +1,8 @@
 class UserModel {
-  String id;
-  String email, phoneNumber, password, role;
+  String? id;
+  String? email, phoneNumber, password, role;
 
-  String fullName, profilePhoto;
+  String? fullName, profilePhoto;
   UserModel({
     this.id,
     this.email,

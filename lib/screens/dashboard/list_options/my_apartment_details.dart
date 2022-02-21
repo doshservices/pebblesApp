@@ -151,7 +151,7 @@ class MyApartmentsDetails extends StatelessWidget {
 
 class MyApartmentListtile extends StatelessWidget {
   const MyApartmentListtile({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

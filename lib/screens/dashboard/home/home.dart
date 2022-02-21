@@ -292,7 +292,7 @@ class HomePage extends StatelessWidget {
 
 class ApartmentItem extends StatelessWidget {
   const ApartmentItem({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -338,8 +338,8 @@ class ApartmentItem extends StatelessWidget {
 }
 
 class HomeWidget extends StatelessWidget {
-  String icon, title;
-  Color color;
+  String? icon, title;
+  Color? color;
   HomeWidget({this.color, this.icon, this.title});
 
   @override

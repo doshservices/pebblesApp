@@ -84,7 +84,7 @@ class AddsOn extends StatelessWidget {
 
 class MyEventListTile extends StatelessWidget {
   const MyEventListTile({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

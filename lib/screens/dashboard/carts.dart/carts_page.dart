@@ -48,7 +48,7 @@ class CartsPage extends StatelessWidget {
 
 class CartItem extends StatelessWidget {
   const CartItem({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

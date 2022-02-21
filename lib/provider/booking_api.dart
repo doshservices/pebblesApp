@@ -10,15 +10,17 @@ import 'package:pebbles/model/http_exception.dart';
 
 /// All api endpoints towards Booking
 class BookingAPI {
-  String token;
+  String? token;
 
   BookingAPI({@required this.token});
 
   /// Get booking by user id
   Future<BookingModel> getBookingByUserId() async {
     try {
+      var uri = Uri.parse('${config.baseUrl}/bookings/booking-by-userId');
+
       final response = await get(
-        "${config.baseUrl}/bookings/booking-by-userId",
+        uri,
         headers: {
           "content-type": "application/json",
           "Authorization": "Bearer $token"

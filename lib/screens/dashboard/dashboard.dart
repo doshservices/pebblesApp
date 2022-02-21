@@ -19,7 +19,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  List<Map<String, dynamic>> _pages;
+  List<Map<String, dynamic>> _pages = [];
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   UserModel user = UserModel();
   int _selectedPageIndex = 0;
@@ -65,37 +65,38 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<bool> _onBackPressed() {
-    return showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text(
-              "Exit",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            content: Text(
-              "Are you sure you want to exit the App?",
-              style: TextStyle(color: Colors.black),
-            ),
-            actions: [
-              FlatButton(
-                child: Text("NO"),
-                onPressed: () {
-                  return Navigator.of(context).pop(false);
-                },
-              ),
-              FlatButton(
-                child: Text("YES"),
-                onPressed: () {
-                  return Navigator.of(context).pop(true);
-                },
-              ),
-            ],
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          "Exit",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
-        ) ??
-        false;
+        ),
+        content: Text(
+          "Are you sure you want to exit the App?",
+          style: TextStyle(color: Colors.black),
+        ),
+        actions: [
+          FlatButton(
+            child: Text("NO"),
+            onPressed: () {
+              return Navigator.of(context).pop(false);
+            },
+          ),
+          FlatButton(
+            child: Text("YES"),
+            onPressed: () {
+              return Navigator.of(context).pop(true);
+            },
+          ),
+        ],
+      ),
+    );
+
+    return Future.value(false);
   }
 
   @override
@@ -121,7 +122,7 @@ class _DashboardState extends State<Dashboard> {
               color: Colors.black,
             ),
             onPressed: () {
-              _scaffoldKey.currentState.openDrawer();
+              _scaffoldKey.currentState!.openDrawer();
             },
           ),
           actions: [

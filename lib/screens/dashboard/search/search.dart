@@ -100,7 +100,7 @@ class Search extends StatelessWidget {
 
 class ApartmentListtile extends StatelessWidget {
   const ApartmentListtile({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

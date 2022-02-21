@@ -12,7 +12,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  UserModel user;
+  UserModel user = UserModel();
 
   @override
   Widget build(BuildContext context) {

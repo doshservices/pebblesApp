@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

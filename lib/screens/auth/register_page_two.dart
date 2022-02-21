@@ -12,8 +12,8 @@ class _RegisterPageTwoState extends State<RegisterPageTwo> {
   @override
   Widget build(BuildContext context) {
     final argument =
-        ModalRoute.of(context).settings.arguments as Map<String, Registration>;
-    Registration reg = argument["reg"];
+        ModalRoute.of(context)!.settings.arguments as Map<String, Registration>;
+    Registration? reg = argument["reg"];
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(20),
@@ -75,7 +75,7 @@ class _RegisterPageTwoState extends State<RegisterPageTwo> {
                 child: RoundedRaisedButton(
                   label: "Business",
                   onPressed: () {
-                    reg.subType = "business";
+                    reg!.subType = "business";
 
                     Navigator.of(context)
                         .pushNamed(kRegisterPageThree, arguments: {"reg": reg});
@@ -92,7 +92,7 @@ class _RegisterPageTwoState extends State<RegisterPageTwo> {
                   buttonColor: Colors.white,
                   labelColor: Theme.of(context).primaryColor,
                   onPressed: () {
-                    reg.subType = "individual";
+                    reg!.subType = "individual";
                     Navigator.of(context)
                         .pushNamed(kRegisterPageThree, arguments: {"reg": reg});
                   },

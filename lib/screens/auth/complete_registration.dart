@@ -13,9 +13,10 @@ class _CompleteRegistrationState extends State<CompleteRegistration> {
   @override
   Widget build(BuildContext context) {
     final argument =
-        ModalRoute.of(context).settings.arguments as Map<String, Registration>;
-    Registration reg = argument["reg"];
-    String subType = reg.subType;
+        ModalRoute.of(context)!.settings.arguments as Map<String, Registration>;
+    Registration? reg = argument["reg"];
+    String? subType = reg!.subType;
+    
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(20),

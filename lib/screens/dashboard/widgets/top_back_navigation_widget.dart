@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TopBackNavigationWidget extends StatelessWidget {
-  const TopBackNavigationWidget({Key key}) : super(key: key);
+  const TopBackNavigationWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -70,7 +70,7 @@ class _RegisterPageOneState extends State<RegisterPageOne> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                child: RoundedRaisedButton(label: "Host", onPressed: null
+                child: RoundedRaisedButton(label: "Host", onPressed: (){}
                     //  () {
                     //   reg.type = "host";
                     //   Navigator.of(context)

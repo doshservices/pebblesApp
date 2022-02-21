@@ -13,25 +13,25 @@ import '../model/user_model.dart';
 import '../config.dart' as config;
 
 class Auth with ChangeNotifier {
-  String _token;
-  String _accessTokenType;
-  DateTime _expiryDate;
-  String _userId;
-  String fullName, phoneNumber, userEmail;
+  String? _token;
+  String? _accessTokenType;
+  DateTime? _expiryDate;
+  String? _userId;
+  String? fullName, phoneNumber, userEmail;
   UserModel user = UserModel();
 
   bool get isAuth {
     return token != null;
   }
 
-  String get token {
+  String? get token {
     if (_token != null) {
       return _token;
     }
     return null;
   }
 
-  String get userId {
+  String? get userId {
     if (_userId != null) {
       return _userId;
     }
@@ -52,8 +52,10 @@ class Auth with ChangeNotifier {
     });
 
     try {
+      var uri = Uri.parse('${config.baseUrl}/api/users');
+
       final response = await http.post(
-        "${config.baseUrl}/api/users",
+        uri,
         headers: {"content-type": "application/json"},
         body: data,
       );
@@ -91,8 +93,10 @@ class Auth with ChangeNotifier {
     }
 
     try {
+      var uri = Uri.parse('${config.baseUrl}/auth/users');
+
       final response = await http.put(
-        "${config.baseUrl}/auth/users",
+        uri,
         headers: {
           "content-type": "application/json",
           "Authorization": "Bearer $token"
@@ -117,8 +121,10 @@ class Auth with ChangeNotifier {
       "password": password,
     });
     try {
+      var uri = Uri.parse('${config.baseUrl}/api/users/login');
+
       final response = await http.post(
-        "${config.baseUrl}/api/users/login",
+        uri,
         headers: {"content-type": "application/json"},
         body: data,
       );
@@ -163,8 +169,10 @@ class Auth with ChangeNotifier {
       "email": email,
     });
     try {
+      var uri = Uri.parse('${config.baseUrl}/api/send-token');
+
       final response = await http.post(
-        "${config.baseUrl}/api/send-token",
+        uri,
         headers: {"content-type": "application/json"},
         body: data,
       );
@@ -186,8 +194,9 @@ class Auth with ChangeNotifier {
       "email": email.trim(),
     });
     try {
+      var uri = Uri.parse('${config.baseUrl}/api/users/forgot-password');
       final response = await http.post(
-        "${config.baseUrl}/api/users/forgot-password",
+        uri,
         headers: {"content-type": "application/json"},
         body: data,
       );
@@ -205,8 +214,10 @@ class Auth with ChangeNotifier {
       String token, String newPassword) async {
     var data = jsonEncode({"token": token, "newPassword": newPassword});
     try {
+      var uri = Uri.parse('${config.baseUrl}/api/users/reset-password');
+
       final response = await http.post(
-        "${config.baseUrl}/api/users/reset-password",
+        uri,
         headers: {"content-type": "application/json"},
         body: data,
       );
@@ -224,8 +235,10 @@ class Auth with ChangeNotifier {
     var data =
         jsonEncode({"oldPassword": oldPassword, "newPassword": newPassword});
     try {
+      var uri = Uri.parse('${config.baseUrl}/api/users/change-password');
+
       final response = await http.post(
-        "${config.baseUrl}/api/users/change-password",
+        uri,
         headers: {
           "content-type": "application/json",
           "Authorization": "Bearer $token"
@@ -247,8 +260,11 @@ class Auth with ChangeNotifier {
       "email": email.trim(),
     });
     try {
+      var uri = Uri.parse(
+          '${config.baseUrl}/users/$email/resend-email-verification-code');
+
       final response = await http.post(
-        "${config.baseUrl}/users/$email/resend-email-verification-code",
+        uri,
         headers: {"content-type": "application/json"},
         body: data,
       );
@@ -268,8 +284,9 @@ class Auth with ChangeNotifier {
   Future<String> verifyEmail(String email, String code) async {
     var data = jsonEncode({"email": email.trim(), "code": code});
     try {
+      var uri = Uri.parse('${config.baseUrl}/users/verify-email');
       final response = await http.post(
-        "${config.baseUrl}/users/verify-email",
+        uri,
         headers: {"content-type": "application/json"},
         body: data,
       );
@@ -286,14 +303,14 @@ class Auth with ChangeNotifier {
     }
   }
 
-  Future<bool> tryAutoLogin() async {
+  Future<bool?> tryAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
     await Future.delayed(Duration(milliseconds: 2000), () {
       if (!prefs.containsKey("userData")) {
         return false;
       }
 
-      final extractedUserData = json.decode(prefs.getString("userData"));
+      final extractedUserData = json.decode(prefs.getString("userData")!);
 
       _token = extractedUserData["token"];
       user.id = extractedUserData["id"];
@@ -309,8 +326,10 @@ class Auth with ChangeNotifier {
 
   Future<UserModel> fetchProfile() async {
     try {
+      var uri = Uri.parse('${config.baseUrl}/api/users/${user.id}');
+
       final response = await http.get(
-        "${config.baseUrl}/api/users/${user.id}",
+        uri,
         headers: {
           "content-type": "application/json",
           "Authorization": "Bearer $token"
@@ -459,8 +478,10 @@ class Auth with ChangeNotifier {
     });
 
     try {
+      var uri = Uri.parse('${config.baseUrl}/users');
+
       final response = await http.put(
-        "${config.baseUrl}/users",
+        uri,
         headers: {
           "content-type": "application/json",
           "Authorization": "Bearer $token"
@@ -487,7 +508,7 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> uploadProfilePicture({
-    String url,
+    String? url,
   }) async {
     var data;
 
@@ -495,8 +516,10 @@ class Auth with ChangeNotifier {
       "imageUrl": url,
     });
     try {
+      var uri = Uri.parse('${config.baseUrl}/users/upload/user/image');
+
       final response = await http.put(
-        "${config.baseUrl}/users/upload/user/image",
+        uri,
         headers: {
           "content-type": "application/json",
           "Authorization": "Bearer $token"

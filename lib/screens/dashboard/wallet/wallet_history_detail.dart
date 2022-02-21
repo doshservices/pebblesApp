@@ -180,7 +180,7 @@ class WalletHistoryDetail extends StatelessWidget {
 
 class WalletItem extends StatelessWidget {
   const WalletItem({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

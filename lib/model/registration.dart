@@ -1,4 +1,4 @@
 class Registration {
-  String type, subType;
+  String? type, subType;
   Registration({this.type, this.subType});
 }

@@ -15,28 +15,28 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _loginFormKey = new GlobalKey<FormState>();
   bool _rememberMe = false;
   bool _isLoading = false;
-  String userEmail, userPassword;
+  String? userEmail, userPassword;
   String errMsg = "";
   bool _obscurePassword = true;
 
   Future<void> _submitLogin() async {
-    if (!_loginFormKey.currentState.validate()) {
+    if (!_loginFormKey.currentState!.validate()) {
       return;
     }
-    _loginFormKey.currentState.save();
+    _loginFormKey.currentState!.save();
     setState(() {
       _isLoading = true;
     });
     try {
       await Provider.of<Auth>(context, listen: false)
-          .signIn(userEmail, userPassword);
+          .signIn(userEmail!, userPassword!);
 
       Navigator.of(context)
           .pushNamedAndRemoveUntil(kDashboard, (route) => false);
     } catch (error) {
       Get.snackbar('Error!', '${error.toString()}',
           barBlur: 0,
-          dismissDirection: SnackDismissDirection.VERTICAL,
+          dismissDirection: DismissDirection.vertical,
           backgroundColor: Colors.red,
           overlayBlur: 0,
           animationDuration: Duration(milliseconds: 500),
@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                 CustomTextFormField(
                   labelText: "Email Address",
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return "Email can't be empty";
                     }
                   },
@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                     });
                   },
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value!.isEmpty) {
                       return "Password can't be empty";
                     }
                   },

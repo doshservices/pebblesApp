@@ -22,7 +22,7 @@ class _BookingsState extends State<Bookings> {
   Future<BookingModel> getCurrentUserBookings() async {
     final preferences = await SharedPreferences.getInstance();
     final userPreferences = preferences.getString("userData");
-    final userJsonData = json.decode(userPreferences);
+    final userJsonData = json.decode(userPreferences!);
 
     final userToken = userJsonData["token"];
 
@@ -90,10 +90,10 @@ class _BookingsState extends State<Bookings> {
                     } else {
                       return ListView.builder(
                         shrinkWrap: true,
-                        itemCount: snapshot.data.data.bookings.length,
+                        itemCount: _bookingModel.data!.bookings!.length,
                         itemBuilder: (context, index) {
                           return BookingsItem(
-                              bookingData: _bookingModel.data.bookings[index]);
+                              bookingData: _bookingModel.data!.bookings![index]);
                         },
                       );
                     }
@@ -118,9 +118,9 @@ class _BookingsState extends State<Bookings> {
 }
 
 class BookingsItem extends StatelessWidget {
-  final Booking bookingData;
+  final Booking? bookingData;
 
-  BookingsItem({Key key, this.bookingData}) : super(key: key);
+  BookingsItem({Key? key, this.bookingData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +133,7 @@ class BookingsItem extends StatelessWidget {
           ),
           contentPadding: EdgeInsets.all(0),
           title: Text(
-            '${bookingData.apartmentId.apartmentName}',
+            '${bookingData?.apartmentId?.apartmentName}',
             style: TextStyle(
                 fontFamily: 'Gilroy',
                 fontWeight: FontWeight.w900,
