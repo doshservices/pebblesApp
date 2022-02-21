@@ -115,7 +115,10 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
                 ),
                 Text(
                   "Continue Registration",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                      fontFamily: 'Gilroy'),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
@@ -123,9 +126,9 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
                 ),
                 Text("User",
                     style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      decoration: TextDecoration.underline,
-                    )),
+                        color: Theme.of(context).primaryColor,
+                        decoration: TextDecoration.underline,
+                        fontFamily: 'Gilroy')),
                 SizedBox(
                   height: 20,
                 ),

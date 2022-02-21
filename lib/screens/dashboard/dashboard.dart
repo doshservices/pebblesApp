@@ -157,9 +157,7 @@ class _DashboardState extends State<Dashboard> {
                   height: 16,
                   fit: BoxFit.contain,
                 ),
-                title: Text(
-                  "${_pages[0]['title']}",
-                ),
+                label: "${_pages[0]['title']}",
                 activeIcon: Image.asset("${_pages[0]['icon']}",
                     height: 20,
                     fit: BoxFit.contain,
@@ -171,9 +169,7 @@ class _DashboardState extends State<Dashboard> {
                   height: 16,
                   fit: BoxFit.contain,
                 ),
-                title: Text(
-                  "${_pages[1]['title']}",
-                ),
+                label: "${_pages[1]['title']}",
                 activeIcon: Image.asset("${_pages[1]['icon']}",
                     height: 20,
                     fit: BoxFit.contain,
@@ -185,9 +181,7 @@ class _DashboardState extends State<Dashboard> {
                   height: 16,
                   fit: BoxFit.contain,
                 ),
-                title: Text(
-                  "${_pages[2]['title']}",
-                ),
+                label: "${_pages[2]['title']}",
                 activeIcon: Image.asset("${_pages[2]['icon']}",
                     height: 20,
                     fit: BoxFit.contain,
@@ -199,9 +193,7 @@ class _DashboardState extends State<Dashboard> {
                   height: 16,
                   fit: BoxFit.contain,
                 ),
-                title: Text(
-                  "${_pages[3]['title']}",
-                ),
+                label: "${_pages[3]['title']}",
                 activeIcon: Image.asset("${_pages[3]['icon']}",
                     height: 20,
                     fit: BoxFit.contain,

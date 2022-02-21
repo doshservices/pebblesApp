@@ -15,7 +15,6 @@ class AppDrawer extends StatelessWidget {
     UserModel user = auth.user;
     return Drawer(
       child: Container(
-        padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/images/bg.png"),
@@ -29,120 +28,245 @@ class AppDrawer extends StatelessWidget {
             ),
             Row(
               children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    "${user.profilePhoto}",
+                Padding(
+                  padding: EdgeInsets.fromLTRB(17, 10, 10, 0),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(
+                          "${user.profilePhoto}",
+                        ),
+                        backgroundColor: Colors.grey.withOpacity(0.5),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Text(
+                        "${user.fullName}",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 21,
+                          letterSpacing: 1,
+                          fontFamily: 'Gilroy',
+                        ),
+                      ),
+                    ],
                   ),
-                  backgroundColor: Colors.grey.withOpacity(0.5),
                 ),
-                SizedBox(
-                  width: 15,
-                ),
-                Text(
-                  "${user.fullName}",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )
               ],
             ),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             Padding(
               padding: const EdgeInsets.only(right: 60.0),
               child: Divider(),
             ),
-            ListTile(
-              leading: Image.asset(
-                "assets/images/image.png",
-                width: 40,
+            Expanded(
+              child: ListView(
+                children: [
+                  ListTile(
+                    leading: Image.asset(
+                      "assets/images/image.png",
+                      width: 40,
+                    ),
+                    title: Text(
+                      "Profile",
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(kProfile);
+                    },
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  ListTile(
+                    leading: Image.asset(
+                      "assets/images/image.png",
+                      width: 40,
+                    ),
+                    title: Text(
+                      "Bookings and Reservations",
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(kBookings);
+                    },
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  ListTile(
+                    leading: Image.asset(
+                      "assets/images/image.png",
+                      width: 40,
+                    ),
+                    title: Text(
+                      "List homes and Events",
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(kListOptions);
+                    },
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  ListTile(
+                    leading: Image.asset(
+                      "assets/images/image.png",
+                      width: 40,
+                    ),
+                    title: Text(
+                      "My Apartments",
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(kMyApartments);
+                    },
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  ListTile(
+                    leading: Image.asset(
+                      "assets/images/image.png",
+                      width: 40,
+                    ),
+                    title: Text(
+                      "My Events",
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(kMyEvents);
+                    },
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  ListTile(
+                    leading: Image.asset(
+                      "assets/images/image.png",
+                      width: 40,
+                    ),
+                    title: Text(
+                      "Withdrawal",
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(kWithdrawFunds);
+                    },
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  ListTile(
+                    leading: Image.asset(
+                      "assets/images/image.png",
+                      width: 40,
+                    ),
+                    title: Text(
+                      "Adds-on",
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  ListTile(
+                    leading: Image.asset(
+                      "assets/images/image.png",
+                      width: 40,
+                    ),
+                    title: Text(
+                      "Settings",
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  ListTile(
+                    leading: Image.asset(
+                      "assets/images/image.png",
+                      width: 40,
+                    ),
+                    title: Text(
+                      "Terms & Conditions",
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  ListTile(
+                    leading: Image.asset(
+                      "assets/images/image.png",
+                      width: 40,
+                    ),
+                    title: Text(
+                      "Logout",
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    onTap: () {
+                      auth.logout();
+                      Navigator.of(context)
+                          .pushNamedAndRemoveUntil(kLogin, (route) => false);
+                    },
+                  ),
+                ],
               ),
-              title: Text("Profile"),
-              onTap: () {
-                Navigator.of(context).pushNamed(kProfile);
-              },
-            ),
-            ListTile(
-              leading: Image.asset(
-                "assets/images/image.png",
-                width: 40,
-              ),
-              title: Text("Bookings and Reservations"),
-              onTap: () {
-                Navigator.of(context).pushNamed(kBookings);
-              },
-            ),
-            ListTile(
-              leading: Image.asset(
-                "assets/images/image.png",
-                width: 40,
-              ),
-              title: Text("List homes and Events"),
-              onTap: () {
-                Navigator.of(context).pushNamed(kListOptions);
-              },
-            ),
-            ListTile(
-              leading: Image.asset(
-                "assets/images/image.png",
-                width: 40,
-              ),
-              title: Text("My Apartments"),
-              onTap: () {
-                Navigator.of(context).pushNamed(kMyApartments);
-              },
-            ),
-            ListTile(
-              leading: Image.asset(
-                "assets/images/image.png",
-                width: 40,
-              ),
-              title: Text("My Events"),
-              onTap: () {
-                Navigator.of(context).pushNamed(kMyEvents);
-              },
-            ),
-            ListTile(
-              leading: Image.asset(
-                "assets/images/image.png",
-                width: 40,
-              ),
-              title: Text("Withdrawal"),
-              onTap: () {
-                Navigator.of(context).pushNamed(kWithdrawFunds);
-              },
-            ),
-            ListTile(
-              leading: Image.asset(
-                "assets/images/image.png",
-                width: 40,
-              ),
-              title: Text("Adds-on"),
-            ),
-            ListTile(
-              leading: Image.asset(
-                "assets/images/image.png",
-                width: 40,
-              ),
-              title: Text("Settings"),
-            ),
-            ListTile(
-              leading: Image.asset(
-                "assets/images/image.png",
-                width: 40,
-              ),
-              title: Text("Terms & Conditions"),
-            ),
-            ListTile(
-              leading: Image.asset(
-                "assets/images/image.png",
-                width: 40,
-              ),
-              title: Text("Logout"),
-              onTap: () {
-                auth.logout();
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil(kLogin, (route) => false);
-              },
             ),
           ],
         ),

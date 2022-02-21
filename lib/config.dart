@@ -1,1 +1,1 @@
-const baseUrl = "https://booking-platform-api.herokuapp.com";
+const baseUrl = "https://pubblessignature.herokuapp.com";

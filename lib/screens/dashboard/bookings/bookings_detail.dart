@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pebbles/constants.dart';
+import 'package:pebbles/model/booking_model.dart';
 import 'package:pebbles/model/registration.dart';
+import 'package:pebbles/screens/dashboard/widgets/top_back_navigation_widget.dart';
 import 'package:pebbles/utils/shared/rounded_raised_button.dart';
 
 class BookingsDetails extends StatefulWidget {
@@ -25,37 +28,22 @@ class _BookingsDetailsState extends State<BookingsDetails> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 40,
-              ),
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back_ios,
-                          size: 16,
-                        ),
-                        Text("Back"),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
+              TopBackNavigationWidget(),
               ListTile(
                 leading: Image.asset(
                   "assets/images/image.png",
                   width: 40,
                 ),
                 contentPadding: EdgeInsets.all(0),
-                title: Text("Bookings & Reservations"),
+                title: Text(
+                  "Bookings & Reservations",
+                  style: TextStyle(
+                    fontFamily: 'Gilroy',
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF808080),
+                  ),
+                ),
               ),
               SizedBox(
                 height: 50,
@@ -70,15 +58,31 @@ class _BookingsDetailsState extends State<BookingsDetails> {
 }
 
 class BookingsDetailItem extends StatelessWidget {
-  const BookingsDetailItem({
+  Booking bookingData = Booking();
+  String checkinDateFormat;
+  String checkoutDateFormat;
+
+  BookingsDetailItem({
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    bookingData = ModalRoute.of(context).settings.arguments;
+
+    DateTime checkInDate = DateTime.parse(bookingData.checkInDate);
+    DateTime checkOutDate = DateTime.parse(bookingData.checkOutDate);
+
+    checkinDateFormat = DateFormat.yMd().format(checkInDate);
+    checkoutDateFormat = DateFormat.yMd().format(checkOutDate);
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 30.0),
         child: Column(
           children: [
             ListTile(
@@ -87,11 +91,21 @@ class BookingsDetailItem extends StatelessWidget {
               //   width: 40,
               // ),
               contentPadding: EdgeInsets.all(0),
-              title: Text("Check-in  date"),
+              title: Text(
+                "Check-in  date",
+                style: TextStyle(
+                    fontFamily: 'Gilroy',
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w800),
+              ),
               // subtitle: Text("Victoria Island, Lagos."),
               trailing: Text(
-                "19/11/2021",
-                style: TextStyle(color: Colors.grey),
+                checkinDateFormat,
+                style: TextStyle(
+                    fontFamily: 'Gilroy',
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1),
               ),
             ),
             Divider(),
@@ -101,11 +115,21 @@ class BookingsDetailItem extends StatelessWidget {
               //   width: 40,
               // ),
               contentPadding: EdgeInsets.all(0),
-              title: Text("Check-out  date"),
+              title: Text(
+                "Check-out  date",
+                style: TextStyle(
+                    fontFamily: 'Gilroy',
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w800),
+              ),
               // subtitle: Text("Victoria Island, Lagos."),
               trailing: Text(
-                "26/11/2021",
-                style: TextStyle(color: Colors.grey),
+                checkoutDateFormat,
+                style: TextStyle(
+                    fontFamily: 'Gilroy',
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1),
               ),
             ),
             Divider(),
@@ -115,7 +139,13 @@ class BookingsDetailItem extends StatelessWidget {
               //   width: 40,
               // ),
               contentPadding: EdgeInsets.all(0),
-              title: Text("Adds-on"),
+              title: Text(
+                "Adds-on",
+                style: TextStyle(
+                    fontFamily: 'Gilroy',
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w800),
+              ),
               // subtitle: Text("Victoria Island, Lagos."),
               trailing: Image.asset(
                 "assets/images/accept.png",
@@ -129,11 +159,21 @@ class BookingsDetailItem extends StatelessWidget {
               //   width: 40,
               // ),
               contentPadding: EdgeInsets.all(0),
-              title: Text("No. of  guest"),
+              title: Text(
+                "No. of  guest",
+                style: TextStyle(
+                    fontFamily: 'Gilroy',
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w800),
+              ),
               // subtitle: Text("Victoria Island, Lagos."),
               trailing: Text(
-                "5",
-                style: TextStyle(color: Colors.grey),
+                '${bookingData.numberOfGuests}',
+                style: TextStyle(
+                    fontFamily: 'Gilroy',
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1),
               ),
             ),
             Divider(),
