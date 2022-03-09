@@ -6,6 +6,7 @@ import 'dart:io' as Io;
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:pebbles/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/http_exception.dart';
 import '../model/user_model.dart';
@@ -48,7 +49,8 @@ class Auth with ChangeNotifier {
       "phoneNumber": user.phoneNumber,
       "otp": otp,
       "googleSigned": "false",
-      "role": "USER"
+      "role": user.role,
+      "businessName": user.businessName
     });
 
     try {
@@ -75,7 +77,7 @@ class Auth with ChangeNotifier {
   Future<void> updateProfile(UserModel currentUser) async {
     var data;
     print(currentUser.email);
-    if (currentUser.role == "INDIVIDUAL_USER") {
+    if (currentUser.role == Role_Individual) {
       data = jsonEncode({
         "phone": currentUser.phoneNumber,
         "role": currentUser.role,
@@ -85,7 +87,7 @@ class Auth with ChangeNotifier {
       });
     }
 
-    if (currentUser.role == "COMPANY") {
+    if (currentUser.role == Role_Business) {
       data = jsonEncode({
         "phone": currentUser.phoneNumber,
         "role": currentUser.role,
@@ -107,7 +109,7 @@ class Auth with ChangeNotifier {
       var resData = jsonDecode(response.body);
 
       print(resData);
-      if (resData["status"] != "ACTIVE") {
+      if (resData["status"].toString().toUpperCase() != "ACTIVE") {
         throw HttpException(resData["message"]);
       }
     } on HttpException catch (error) {
@@ -139,25 +141,30 @@ class Auth with ChangeNotifier {
 
       _token = resData["data"]["token"];
 
+      user.isVerified = resData["data"]["userDetails"]["isVerified"];
+
       user.id = resData["data"]["userDetails"]["_id"];
       user.fullName = resData["data"]["userDetails"]["fullName"];
-
       user.email = resData["data"]["userDetails"]["email"];
 
       user.phoneNumber = resData["data"]["userDetails"]["phoneNumber"];
       user.profilePhoto = resData["data"]["userDetails"]["profilePictureUrl"];
+      user.role = resData["data"]["userDetails"]["role"];
 
       notifyListeners();
 
       final prefs = await SharedPreferences.getInstance();
       final userData = json.encode({
+        'isVerified': user.isVerified,
         'token': token,
         'id': user.id,
         'email': user.email,
         'fullName': user.fullName,
         'phoneNumber': user.phoneNumber,
         'profilePhoto': user.profilePhoto,
+        'role': user.role,
       });
+
       prefs.setString("userData", userData);
     } catch (error) {
       throw error;

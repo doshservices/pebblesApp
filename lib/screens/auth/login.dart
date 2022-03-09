@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pebbles/constants.dart';
+import 'package:pebbles/utils/shared/custom_default_button.dart';
 import 'package:pebbles/utils/shared/custom_textformfield.dart';
+import 'package:pebbles/utils/shared/error_snackbar.dart';
 import 'package:pebbles/utils/shared/rounded_raised_button.dart';
 import 'package:get/get.dart';
 import 'package:pebbles/provider/auth.dart';
+import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -34,13 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.of(context)
           .pushNamedAndRemoveUntil(kDashboard, (route) => false);
     } catch (error) {
-      Get.snackbar('Error!', '${error.toString()}',
-          barBlur: 0,
-          dismissDirection: DismissDirection.vertical,
-          backgroundColor: Colors.red,
-          overlayBlur: 0,
-          animationDuration: Duration(milliseconds: 500),
-          duration: Duration(seconds: 2));
+      ErrorSnackBar.displaySnackBar('Error', '${error.toString()}');
     } finally {
       setState(() {
         _isLoading = false;
@@ -58,6 +55,7 @@ class _LoginPageState extends State<LoginPage> {
         decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/images/bg.png"),
+              fit: BoxFit.fill,
             ),
             color: Colors.grey.withOpacity(0.2)),
         child: SingleChildScrollView(
@@ -66,43 +64,26 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 40,
-                ),
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.arrow_back_ios,
-                            size: 16,
-                          ),
-                          Text("Back"),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
+                TopBackNavigationWidget(),
+
                 Text(
                   "Welcome Back,",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                      fontFamily: 'Gilroy'),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 Text(
                   "Sign into your account!",
                   style: TextStyle(
-                    fontSize: 18,
-                  ),
+                      fontSize: 18,
+                      fontFamily: 'Gilroy',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[700]),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(
@@ -142,14 +123,24 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text("Did you forget your password? "),
+                    Text(
+                      "Did you forget your password? ",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Gilroy',
+                          fontWeight: FontWeight.w700),
+                    ),
                     GestureDetector(
                       onTap: () {
                         Navigator.of(context).pushNamed(kResetPassword);
                       },
                       child: Text(
                         "Reset it",
-                        style: TextStyle(color: kAccentColor),
+                        style: TextStyle(
+                            color: kAccentColor,
+                            fontSize: MediaQuery.of(context).size.width / 28,
+                            fontFamily: 'Gilroy',
+                            fontWeight: FontWeight.w700),
                       ),
                     )
                   ],
@@ -157,23 +148,26 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 50,
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: RoundedRaisedButton(
-                    label: "Login",
-                    isLoading: _isLoading,
-                    onPressed: () async {
-                      await _submitLogin();
-                    },
-                  ),
+                CustomDefaultButton(
+                  onPressed: () async {
+                    await _submitLogin();
+                  },
+                  isLoading: _isLoading,
+                  text: 'Login',
                 ),
+
                 SizedBox(
                   height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("If you have don’t have an account,"),
+                    Text("If you have don’t have an account,",
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width / 26,
+                          fontFamily: 'Gilroy',
+                          fontWeight: FontWeight.w700,
+                        )),
                     GestureDetector(
                       onTap: () {
                         Navigator.of(context)
@@ -181,7 +175,11 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       child: Text(
                         " Sign Up",
-                        style: TextStyle(color: kAccentColor),
+                        style: TextStyle(
+                            color: kAccentColor,
+                            fontSize: MediaQuery.of(context).size.width / 26,
+                            fontFamily: 'Gilroy',
+                            fontWeight: FontWeight.w700),
                       ),
                     )
                   ],

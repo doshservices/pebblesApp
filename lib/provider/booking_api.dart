@@ -1,18 +1,15 @@
 import 'package:http/http.dart';
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:pebbles/model/booking_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:pebbles/config.dart' as config;
 import 'package:pebbles/model/http_exception.dart';
 
 /// All api endpoints towards Booking
 class BookingAPI {
-  String? token;
+  String token;
 
-  BookingAPI({@required this.token});
+  BookingAPI({required this.token});
 
   /// Get booking by user id
   Future<BookingModel> getBookingByUserId() async {
@@ -37,7 +34,8 @@ class BookingAPI {
 
       return bookingModel;
     } catch (error) {
-      BookingModel bookingModel = BookingModel(status: "error");
+      BookingModel bookingModel =
+          BookingModel(status: "error", message: error.toString());
 
       return bookingModel;
     }

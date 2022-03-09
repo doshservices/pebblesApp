@@ -29,6 +29,10 @@ dependencies:
   shared_preferences: ^2.0.13
   get: ^4.6.1
   intl: ^0.17.0
+  flutter_launcher_icons: ^0.9.2
+  geolocator: ^8.2.0
+  geocoding: ^2.0.2
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -38,6 +42,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon/icon.png"
 
 dependency_overrides:
   # intl: ^0.16.1

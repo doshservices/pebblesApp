@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pebbles/constants.dart';
 import 'package:pebbles/model/user_model.dart';
+import 'package:pebbles/utils/shared/custom_default_button.dart';
 import 'package:pebbles/utils/shared/custom_textformfield.dart';
+import 'package:pebbles/utils/shared/error_snackbar.dart';
 import 'package:pebbles/utils/shared/rounded_raised_button.dart';
 import 'package:get/get.dart';
 import 'package:pebbles/model/http_exception.dart';
+import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:pebbles/provider/auth.dart';
 
@@ -28,14 +31,12 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
 
   Future<void> _submit() async {
     FocusScope.of(context).unfocus();
+
     if (!_registerFormKey.currentState!.validate()) {
-      Get.snackbar('Error!', 'Please complete the missing fields',
-          barBlur: 0,
-          dismissDirection: DismissDirection.vertical,
-          backgroundColor: Colors.red,
-          overlayBlur: 0,
-          animationDuration: Duration(milliseconds: 500),
-          duration: Duration(seconds: 2));
+      // invalid input fields
+      ErrorSnackBar.displaySnackBar(
+          'Error!', 'Please complete the missing fields');
+
       return;
     }
     _registerFormKey.currentState!.save();
@@ -45,25 +46,17 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
     });
 
     try {
+      userModel.role = Role_User;
       await Provider.of<Auth>(context, listen: false).sendOtp(userModel.email!);
       Navigator.of(context)
           .pushNamed(kOtpVerification, arguments: {"user": userModel});
     } on HttpException catch (error) {
-      Get.snackbar('Error!', '${error.toString()}',
-          barBlur: 0,
-          dismissDirection: DismissDirection.vertical,
-          backgroundColor: Colors.red,
-          overlayBlur: 0,
-          animationDuration: Duration(milliseconds: 500),
-          duration: Duration(seconds: 2));
+      // registration failed, display alert
+      ErrorSnackBar.displaySnackBar('Error!', '${error.toString()}');
     } catch (error) {
-      Get.snackbar('Error!', 'Registration Failed, Please try again later',
-          barBlur: 0,
-          dismissDirection: DismissDirection.vertical,
-          backgroundColor: Colors.red,
-          overlayBlur: 0,
-          animationDuration: Duration(milliseconds: 500),
-          duration: Duration(seconds: 2));
+      // encountered error
+      ErrorSnackBar.displaySnackBar(
+          'Error!', 'Registration failed, please try again later');
     } finally {
       setState(() {
         _isLoading = false;
@@ -81,6 +74,7 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
         decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/images/bg.png"),
+              fit: BoxFit.fill,
             ),
             color: Colors.grey.withOpacity(0.2)),
         child: SingleChildScrollView(
@@ -89,30 +83,8 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 40,
-                ),
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.arrow_back_ios,
-                            size: 16,
-                          ),
-                          Text("Back"),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
+                TopBackNavigationWidget(),
+
                 Text(
                   "Continue Registration",
                   style: TextStyle(
@@ -124,11 +96,17 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
                 SizedBox(
                   height: 10,
                 ),
-                Text("User",
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        decoration: TextDecoration.underline,
-                        fontFamily: 'Gilroy')),
+                Text(
+                  "User",
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    decoration: TextDecoration.underline,
+                    fontFamily: 'Gilroy',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    letterSpacing: 1,
+                  ),
+                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -149,6 +127,12 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
                     if (value!.isEmpty) {
                       return "Email required";
                     }
+
+                    // using regular expression
+                    if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
+                      return "Please enter a valid email address";
+                    }
+                    return null;
                   },
                   onSaved: (value) {
                     userModel.email = value;
@@ -216,35 +200,45 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
                 //   ],
                 // ),
                 SizedBox(
-                  height: 60,
+                  height: 35,
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: RoundedRaisedButton(
-                    label: "Proceed",
-                    isLoading: _isLoading,
-                    onPressed: () async {
-                      _submit();
-                    },
-                  ),
-                ),
+
+                // submit button
+                CustomDefaultButton(
+                    onPressed: _submit, text: 'Proceed', isLoading: _isLoading),
+
                 SizedBox(
                   height: 20,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("If you have an account, "),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushReplacementNamed(kLogin);
-                      },
-                      child: Text(
-                        "Log in",
-                        style: TextStyle(color: kAccentColor),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 40.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "If you have an account, ",
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontFamily: 'Gilroy',
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    )
-                  ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushReplacementNamed(kLogin);
+                        },
+                        child: Text(
+                          "Log in",
+                          style: TextStyle(
+                            color: kAccentColor,
+                            fontSize: 17,
+                            fontFamily: 'Gilroy',
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 )
               ],
             ),

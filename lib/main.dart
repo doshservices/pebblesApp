@@ -8,9 +8,9 @@ import 'package:pebbles/screens/dashboard/bookings/bookings_detail.dart';
 import 'package:pebbles/screens/splashscreen.dart';
 import 'package:pebbles/screens/auth/walkthrough.dart';
 import 'package:pebbles/screens/auth/register_page_one.dart';
-import 'package:pebbles/screens/auth/register_page_two.dart';
-import 'package:pebbles/screens/auth/register_page_three.dart';
-import 'package:pebbles/screens/auth/opt_verification.dart';
+import 'package:pebbles/screens/auth/register_host.dart';
+import 'package:pebbles/screens/auth/register_host_email.dart';
+import 'package:pebbles/screens/auth/otp_verification.dart';
 import 'package:pebbles/screens/auth/continue_registration.dart';
 import 'package:pebbles/screens/auth/complete_registration.dart';
 import 'package:pebbles/screens/auth/login.dart';
@@ -90,8 +90,8 @@ class _MyAppState extends State<MyApp> {
                   ),
             routes: {
               kRegisterPageOne: (ctx) => RegisterPageOne(),
-              kRegisterPageTwo: (ctx) => RegisterPageTwo(),
-              kRegisterPageThree: (ctx) => RegisterPageThree(),
+              kRegisterHost: (ctx) => RegisterHost(),
+              kRegisterHostEmail: (ctx) => RegisterHostEmail(),
               kOtpVerification: (ctx) => OtpVerificationScreen(),
               kContinueRegistration: (ctx) => ContinueRegistration(),
               kCompleteRegistration: (ctx) => CompleteRegistration(),

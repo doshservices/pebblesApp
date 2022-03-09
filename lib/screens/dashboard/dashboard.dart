@@ -112,7 +112,11 @@ class _DashboardState extends State<Dashboard> {
           backgroundColor: Colors.grey.withOpacity(0.2),
           title: Text(
             "${_pages[_selectedPageIndex]["title"]}",
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'Gilroy',
+                fontSize: 22,
+                fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
           elevation: 0,

@@ -1,7 +1,96 @@
-import 'package:flutter/material.dart';
-import 'package:pebbles/constants.dart';
+import 'dart:convert';
 
-class HomePage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
+import 'package:pebbles/bloc/apartmentBloc.dart';
+import 'package:pebbles/constants.dart';
+import 'package:pebbles/model/apartment_model';
+import 'package:pebbles/provider/apartment_api.dart';
+import 'package:pebbles/utils/shared/error_snackbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  Position? _currentPosition;
+  String? _currentAddress;
+  late ApartmentModel _apartmentModel = ApartmentModel();
+  ApartmentBloc apartmentBloc = ApartmentBloc();
+
+  String location = "";
+
+  // get current user location
+  Future _getCurrentLocation() async {
+    // check location permission
+    LocationPermission checkPermission = await Geolocator.checkPermission();
+
+    if (checkPermission == LocationPermission.denied ||
+        checkPermission == LocationPermission.deniedForever) {
+      // location denied, open app location settings
+      // TODO: prompt user to open location to grant permission
+      //await Geolocator.openAppSettings();
+
+      LocationPermission permission = await Geolocator.requestPermission();
+    } else if (checkPermission == LocationPermission.always ||
+        checkPermission == LocationPermission.whileInUse) {
+      // location permission granted
+      Geolocator.getCurrentPosition(
+              desiredAccuracy: LocationAccuracy.best,
+              forceAndroidLocationManager: true)
+          .then((Position position) {
+        setState(() {
+          _currentPosition = position;
+          _getAdressFromLatLng();
+        });
+      }).catchError((e) {
+        print(e);
+      });
+    } else {
+      // request permission
+      LocationPermission permission = await Geolocator.requestPermission();
+    }
+  }
+
+  /// convert longitude and latitude values with geocoding: internet connection needed
+  Future _getAdressFromLatLng() async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          _currentPosition!.latitude, _currentPosition!.longitude);
+
+      Placemark place = placemarks[0];
+
+      setState(() {
+        print("${place.locality}, ${place.postalCode}, ${place.country}");
+        _currentAddress = place.locality;
+      });
+
+      // set currentAddress to preference
+      final preferences = await SharedPreferences.getInstance();
+      final userPreferences = preferences.getString("userData");
+      final userJsonData = json.decode(userPreferences!);
+
+      userJsonData["currentAddress"] = _currentAddress;
+      final userData = json.encode(userJsonData);
+
+      preferences.setString("userData", userData);
+    } catch (e) {
+      // display network error, unable to get coordinfates
+      ErrorSnackBar.displaySnackBar("Error", "${e.toString()}");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getCurrentLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,9 +100,8 @@ class HomePage extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-              "assets/images/bg.png",
-            ),
+            image: AssetImage("assets/images/bg.png"),
+            fit: BoxFit.fill,
           ),
           color: Colors.grey.withOpacity(0.2),
         ),
@@ -25,29 +113,48 @@ class HomePage extends StatelessWidget {
                 height: 10,
               ),
               Card(
-                color: Theme.of(context).primaryColor,
+                color: Color(0xFFE3E8E9),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25),
-                ),
+                    borderRadius: BorderRadius.circular(8),
+                    side: BorderSide(color: Colors.grey, width: 1)),
                 child: TextFormField(
+                  onFieldSubmitted: (value) {
+                    if (value.isNotEmpty) {
+                      Navigator.of(context)
+                          .pushNamed(kSearch, arguments: {'location': value});
+                    }
+                  },
+                  onChanged: (value) {
+                    location = value;
+                  },
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(left: 20, top: 15),
                     border: InputBorder.none,
                     hintText: "Where do you have in mind?",
                     hintStyle: TextStyle(
-                      color: Colors.white,
+                      color: Colors.grey,
+                      fontFamily: 'Gilroy',
                     ),
                     suffixIcon: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Container(
-                          width: 20,
-                          height: 20,
-                          child: Image.asset(
-                            "assets/images/search_icon.png",
+                        GestureDetector(
+                          onTap: () {
+                            // search using search icon
+                            if (location.isNotEmpty) {
+                              Navigator.of(context).pushNamed(kSearch,
+                                  arguments: {'location': location});
+                            }
+                          },
+                          child: Container(
                             width: 20,
                             height: 20,
-                            fit: BoxFit.contain,
+                            child: Image.asset(
+                              "assets/images/search_blue.png",
+                              width: 20,
+                              height: 20,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                       ],
@@ -65,7 +172,7 @@ class HomePage extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(8),
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: AssetImage(
@@ -79,7 +186,7 @@ class HomePage extends StatelessWidget {
                     clipBehavior: Clip.hardEdge,
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   Container(
@@ -92,7 +199,8 @@ class HomePage extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 18),
+                            fontFamily: 'Gilroy',
+                            fontSize: 22),
                       ),
                     ),
                   )
@@ -109,7 +217,8 @@ class HomePage extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushNamed(kSearch);
+                      Navigator.of(context).pushNamed(kSearch,
+                          arguments: {'location': _currentAddress ?? "Lagos"});
                     },
                     child: HomeWidget(
                       title: "Apartment",
@@ -177,7 +286,7 @@ class HomePage extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(8),
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: AssetImage(
@@ -191,50 +300,106 @@ class HomePage extends StatelessWidget {
                     clipBehavior: Clip.hardEdge,
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   Container(
                     height: 150,
                     width: MediaQuery.of(context).size.width,
                     child: Center(
-                      child: Text(
-                        "Explore beautiful places in your city",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Explore beautiful places in your city",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Gilroy',
+                              fontSize: 22),
+                        ),
                       ),
                     ),
                   )
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 35),
               Text("Apartments Near you",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
+                      fontFamily: 'Gilroy',
                       color: Theme.of(context).primaryColor)),
-              SizedBox(height: 20),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    ApartmentItem(),
-                    ApartmentItem(),
-                    ApartmentItem(),
-                    ApartmentItem(),
-                  ],
-                ),
-              ),
+              SizedBox(height: 7),
+              FutureBuilder(
+                  future: apartmentBloc
+                      .getApartmentsByUserLocation(_currentAddress ?? "Lagos"),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      _apartmentModel = snapshot.data as ApartmentModel;
+
+                      if (_apartmentModel.status == "error") {
+                        return Column(
+                          children: [
+                            Center(
+                                child: Text(
+                              'Could not get apartments, make sure you are connected to the internet',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 16.0),
+                            ))
+                          ],
+                        );
+                      } else {
+                        int apartmentLength =
+                            _apartmentModel.data?.apartments?.length ?? 0;
+                        double height = 250.0;
+
+                        if (apartmentLength <= 0) {
+                          height = 0;
+                        }
+
+                        return Row(
+                          children: [
+                            Expanded(
+                                child: SizedBox(
+                              height: height,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount:
+                                    _apartmentModel.data?.apartments?.length ??
+                                        0,
+                                itemBuilder: (context, index) {
+                                  return ApartmentItem(
+                                      apartment: _apartmentModel
+                                          .data!.apartments![index]);
+                                },
+                              ),
+                            ))
+                          ],
+                        );
+                      }
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return Column(
+                        children: [LinearProgressIndicator()],
+                      );
+                    }
+
+                    return Container();
+                  }),
               SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text("See more",
                       style: TextStyle(
-                          fontSize: 16, color: Theme.of(context).accentColor)),
+                          fontFamily: 'Gilroy',
+                          fontSize: 16,
+                          color: Theme.of(context).accentColor)),
                 ],
               ),
               SizedBox(height: 20),
@@ -245,7 +410,7 @@ class HomePage extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     clipBehavior: Clip.hardEdge,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(8),
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(
@@ -260,20 +425,25 @@ class HomePage extends StatelessWidget {
                     clipBehavior: Clip.hardEdge,
                     decoration: BoxDecoration(
                       color: Theme.of(context).primaryColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   Container(
                     height: 150,
                     width: MediaQuery.of(context).size.width,
                     child: Center(
-                      child: Text(
-                        "Book an appartment and you also get access to great meals",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Book an appartment and you also get access to great meals",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 18),
+                            fontFamily: 'Gilroy',
+                            fontSize: 22,
+                          ),
+                        ),
                       ),
                     ),
                   )
@@ -291,45 +461,69 @@ class HomePage extends StatelessWidget {
 }
 
 class ApartmentItem extends StatelessWidget {
-  const ApartmentItem({
-    Key? key,
-  }) : super(key: key);
+  final Apartment? apartment;
+  final formatCurrency = new NumberFormat("#,##0.00", "en_US");
+
+  ApartmentItem({Key? key, this.apartment}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(8),
       ),
       clipBehavior: Clip.hardEdge,
       child: Container(
+        width: MediaQuery.of(context).size.width / 2.6,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset(
               "assets/images/hotel2.png",
-              width: 150,
-              height: 130,
+              width: MediaQuery.of(context).size.width / 2.6,
+              height: MediaQuery.of(context).size.height / 5,
               fit: BoxFit.cover,
             ),
             Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Text(
-                "Cubana ",
-                style: TextStyle(fontWeight: FontWeight.bold),
+              padding: EdgeInsets.fromLTRB(7, 4, 2, 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text(
+                      apartment?.apartmentName ?? "",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Gilroy',
+                          fontSize: 16),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5.0),
+                    child: Text(
+                      '${apartment?.address}, ${apartment?.apartmentState}, ${apartment?.apartmentCountry}',
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 5.0, top: 5, bottom: 5),
+                    child: Text(
+                      "N${formatCurrency.format(apartment?.price)} /night",
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Gilroy'),
+                    ),
+                  )
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 5.0),
-              child: Text("Victoria Island, Lagos."),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 5.0, top: 5, bottom: 5),
-              child: Text(
-                "N25,000 /night",
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-            )
           ],
         ),
       ),
@@ -352,13 +546,13 @@ class HomeWidget extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: Container(
-            height: 60,
-            width: 60,
+            height: 65,
+            width: 65,
             child: Center(
               child: Image.asset(
                 "$icon",
-                width: 20,
-                height: 20,
+                width: 35,
+                height: 35,
                 fit: BoxFit.contain,
               ),
             ),
@@ -366,7 +560,8 @@ class HomeWidget extends StatelessWidget {
         ),
         Text(
           "$title",
-          style: TextStyle(fontWeight: FontWeight.w600),
+          style: TextStyle(
+              fontWeight: FontWeight.w600, fontFamily: 'Gilroy', fontSize: 16),
         )
       ],
     );

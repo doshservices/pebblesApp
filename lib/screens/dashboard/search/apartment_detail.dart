@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pebbles/constants.dart';
+import 'package:pebbles/model/apartment_model';
 import 'package:pebbles/utils/shared/custom_textformfield.dart';
 import 'package:pebbles/utils/shared/rounded_raised_button.dart';
+import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
 
 class ApartmentDetail extends StatelessWidget {
+  Apartment apartment = new Apartment();
+
   @override
   Widget build(BuildContext context) {
+    Map data = ModalRoute.of(context)?.settings.arguments as Map;
+    apartment = data['apartment'];
+
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -13,8 +20,7 @@ class ApartmentDetail extends StatelessWidget {
         // padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/bg.png"),
-            ),
+                image: AssetImage("assets/images/bg.png"), fit: BoxFit.fill),
             color: Colors.grey.withOpacity(0.2)),
         child: SingleChildScrollView(
           child: Column(
@@ -35,23 +41,10 @@ class ApartmentDetail extends StatelessWidget {
                   ),
                   Positioned(
                     left: 20,
-                    top: 60,
+                    top: 12,
                     child: Row(
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.arrow_back_ios,
-                                size: 16,
-                              ),
-                              Text("Back"),
-                            ],
-                          ),
-                        ),
+                        TopBackNavigationWidget(),
                       ],
                     ),
                   ),
@@ -60,7 +53,7 @@ class ApartmentDetail extends StatelessWidget {
                     bottom: 20,
                     child: Card(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
@@ -74,6 +67,7 @@ class ApartmentDetail extends StatelessWidget {
                               "Use Map",
                               style: TextStyle(
                                 color: Theme.of(context).primaryColor,
+                                fontFamily: 'Gilroy',
                               ),
                             )
                           ],
@@ -91,13 +85,14 @@ class ApartmentDetail extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Cubana Victoria Island",
+                        apartment.apartmentName ?? "",
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontWeight: FontWeight.w900,
+                            fontFamily: 'Gilroy',
+                            fontSize: 18.0),
                       ),
                       SizedBox(height: 5),
-                      Text("17 Adeola Odeku Street, Victoria Island, Lagos."),
+                      Text("17 Adeola Odeku Street, Victoria Island, Lagos.", ),
                       Divider(),
                       Text(
                           "Cupidatat reprehenderit nulla ex elit dolor dolore minim in aute tempor. Ipsum excepteur id voluptate elit nulla ipsum t.")

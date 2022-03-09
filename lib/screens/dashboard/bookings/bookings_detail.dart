@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:pebbles/constants.dart';
 import 'package:pebbles/model/booking_model.dart';
 import 'package:pebbles/model/registration.dart';
-import 'package:pebbles/screens/dashboard/widgets/top_back_navigation_widget.dart';
+import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
 import 'package:pebbles/utils/shared/rounded_raised_button.dart';
 
 class BookingsDetails extends StatefulWidget {

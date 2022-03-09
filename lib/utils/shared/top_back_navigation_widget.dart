@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pebbles/constants.dart';
 
+/// Top navigation widget for 'Back' text
 class TopBackNavigationWidget extends StatelessWidget {
   const TopBackNavigationWidget({Key? key}) : super(key: key);
 
@@ -8,13 +10,17 @@ class TopBackNavigationWidget extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 40,
+          height: 20,
         ),
         Row(
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pop();
+                if (Navigator.of(context).canPop()) {
+                  Navigator.of(context).pop();
+                } else {
+                  Navigator.of(context).pushReplacementNamed(kRegisterPageOne);
+                }
               },
               child: Row(
                 children: [

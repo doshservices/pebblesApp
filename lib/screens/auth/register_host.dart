@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:pebbles/constants.dart';
+import 'package:pebbles/model/registration.dart';
+import 'package:pebbles/model/user_model.dart';
 import 'package:pebbles/utils/shared/custom_default_button.dart';
+import 'package:pebbles/utils/shared/rounded_raised_button.dart';
+import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
 
-class RegisterPageOne extends StatefulWidget {
+class RegisterHost extends StatefulWidget {
   @override
-  _RegisterPageOneState createState() => _RegisterPageOneState();
+  _RegisterHostState createState() => _RegisterHostState();
 }
 
-class _RegisterPageOneState extends State<RegisterPageOne> {
+class _RegisterHostState extends State<RegisterHost> {
+  UserModel userModel = new UserModel();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,15 +23,15 @@ class _RegisterPageOneState extends State<RegisterPageOne> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/bg.png"), fit: BoxFit.fill),
+              image: AssetImage("assets/images/bg.png"),
+              fit: BoxFit.fill,
+            ),
             color: Colors.grey.withOpacity(0.2)),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 60,
-              ),
+              TopBackNavigationWidget(),
               Text(
                 "Create an account",
                 style: TextStyle(
@@ -38,7 +44,7 @@ class _RegisterPageOneState extends State<RegisterPageOne> {
                 height: 15,
               ),
               Text(
-                "How will you like to be registered?",
+                "Register as an host account",
                 style: TextStyle(
                     fontSize: 18,
                     fontFamily: 'Gilroy',
@@ -50,19 +56,26 @@ class _RegisterPageOneState extends State<RegisterPageOne> {
                 height: 120,
               ),
               CustomDefaultButton(
-                text: 'Host',
                 onPressed: () {
-                  Navigator.of(context).pushNamed(kRegisterHost);
+                  userModel.role = Role_Business;
+
+                  Navigator.of(context).pushNamed(kContinueRegistration,
+                      arguments: {"user": userModel});
                 },
+                text: 'Business',
               ),
               SizedBox(
                 height: 30,
               ),
               CustomDefaultButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(kCreateUserAccount);
-                  },
-                  text: 'User'),
+                onPressed: () {
+                  userModel.role = Role_Individual;
+                  Navigator.of(context).pushNamed(kContinueRegistration,
+                      arguments: {"user": userModel});
+                },
+                text: 'Individual',
+                isPrimaryButton: false,
+              ),
               SizedBox(
                 height: 20,
               ),

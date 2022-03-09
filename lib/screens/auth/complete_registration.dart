@@ -16,7 +16,7 @@ class _CompleteRegistrationState extends State<CompleteRegistration> {
         ModalRoute.of(context)!.settings.arguments as Map<String, Registration>;
     Registration? reg = argument["reg"];
     String? subType = reg!.subType;
-    
+
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(20),

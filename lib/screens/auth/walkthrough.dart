@@ -199,7 +199,8 @@ class _WalkThroughState extends State<WalkThrough> {
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: RoundedRaisedButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(kRegisterPageOne);
+                        Navigator.of(context)
+                            .pushReplacementNamed(kRegisterPageOne);
                       },
                       label: "Get Started",
                     ),

@@ -87,7 +87,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 child: RoundedRaisedButton(
                   label: "Confirm",
                   onPressed: () {
-                    // Navigator.of(context).pushNamed(kRegisterPageThree);
+                    // Navigator.of(context).pushNamed(kRegisterHostEmail);
                   },
                 ),
               ),

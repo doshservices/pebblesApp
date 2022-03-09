@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:pebbles/screens/dashboard/widgets/top_back_navigation_widget.dart';
+import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pebbles/constants.dart';
 import 'package:pebbles/provider/booking_api.dart';
@@ -42,8 +42,7 @@ class _BookingsState extends State<Bookings> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/bg.png"),
-            ),
+                image: AssetImage("assets/images/bg.png"), fit: BoxFit.fill),
             color: Colors.grey.withOpacity(0.2)),
         child: Expanded(
           child: Column(
@@ -93,7 +92,8 @@ class _BookingsState extends State<Bookings> {
                         itemCount: _bookingModel.data!.bookings!.length,
                         itemBuilder: (context, index) {
                           return BookingsItem(
-                              bookingData: _bookingModel.data!.bookings![index]);
+                              bookingData:
+                                  _bookingModel.data!.bookings![index]);
                         },
                       );
                     }
