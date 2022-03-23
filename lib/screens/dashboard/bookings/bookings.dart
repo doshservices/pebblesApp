@@ -15,8 +15,6 @@ class Bookings extends StatefulWidget {
 }
 
 class _BookingsState extends State<Bookings> {
-  //List<Booking> _bookingsDataList = [];
-  // BookingAPI bookingAPI = BookingAPI(token: "");
   BookingModel _bookingModel = BookingModel();
 
   Future<BookingModel> getCurrentUserBookings() async {
@@ -29,6 +27,13 @@ class _BookingsState extends State<Bookings> {
     // api request to get current user bookings
     BookingAPI bookingAPI = BookingAPI(token: userToken);
     _bookingModel = await bookingAPI.getBookingByUserId();
+
+    // get bookings that have been paid for
+    _bookingModel.data!.bookings = _bookingModel.data!.bookings!
+        .where((element) =>
+            element.bookingStatus != null &&
+            element.bookingStatus != "CANCELLED")
+        .toList();
 
     return _bookingModel;
   }
@@ -78,7 +83,8 @@ class _BookingsState extends State<Bookings> {
                         children: [
                           Center(
                               child: Text(
-                            'Could not get bookings data',
+                            _bookingModel.message ??
+                                'Could not get bookings data',
                             style: TextStyle(
                                 fontFamily: 'Gilroy',
                                 fontWeight: FontWeight.w900,
@@ -87,15 +93,43 @@ class _BookingsState extends State<Bookings> {
                         ],
                       ));
                     } else {
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: _bookingModel.data!.bookings!.length,
-                        itemBuilder: (context, index) {
-                          return BookingsItem(
-                              bookingData:
-                                  _bookingModel.data!.bookings![index]);
-                        },
-                      );
+                      return _bookingModel.data!.bookings!.length > 0
+                          ? Expanded(
+                              child: ListView.builder(
+                                //physics: ,
+                                //physics: AlwaysScrollableScrollPhysics(),
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                itemCount: _bookingModel.data!.bookings!.length,
+                                itemBuilder: (context, index) {
+                                  return BookingsItem(
+                                      bookingData:
+                                          _bookingModel.data!.bookings![index]);
+                                },
+                              ),
+                            )
+                          : // no completed bookings
+                          Expanded(
+                              child: Column(children: [
+                              SizedBox(height: 15),
+                              Center(
+                                  child: Text(
+                                'No bookings yet',
+                                style: TextStyle(
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 23.0),
+                              )),
+                              SizedBox(height: 7),
+                              Center(
+                                  child: Text(
+                                'All your reserved bookings would appear here',
+                                style: TextStyle(
+                                    fontFamily: 'Gilroy',
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18.0),
+                              ))
+                            ]));
                     }
                   } else if (snapshot.connectionState ==
                       ConnectionState.waiting) {
@@ -124,12 +158,21 @@ class BookingsItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int count = bookingData?.apartmentId?.apartmentImages?.length ?? 0;
+
     return Column(
       children: [
         ListTile(
           leading: ClipRRect(
-            borderRadius: BorderRadius.circular(1),
-            child: Image(image: AssetImage("assets/images/hotel.png")),
+            borderRadius: BorderRadius.circular(5),
+            child: count > 0
+                ? Image.network(
+                    bookingData!.apartmentId!.apartmentImages!.first)
+                : Text(
+                    'No image',
+                    style: TextStyle(
+                        backgroundColor: Colors.white, fontFamily: 'Gilroy'),
+                  ),
           ),
           contentPadding: EdgeInsets.all(0),
           title: Text(
@@ -140,10 +183,13 @@ class BookingsItem extends StatelessWidget {
                 fontSize: 23.0),
           ),
           subtitle: Padding(
-            padding: const EdgeInsets.only(top: 7.0),
+            padding: const EdgeInsets.only(top: 10.0),
             child: Text(
-              "Victoria Island, Lagos.",
-              style: TextStyle(fontFamily: 'Gilroy', fontSize: 16.0),
+              "PAYMENT ${bookingData?.paymentStatus ?? ""}",
+              style: TextStyle(
+                  fontFamily: 'Gilroy',
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold),
             ),
           ),
           trailing: Image.asset(

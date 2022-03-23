@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:pebbles/model/apartment_model';
+import 'package:pebbles/bloc/services.dart';
+import 'package:pebbles/model/apartment_model.dart';
 import 'package:pebbles/provider/apartment_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,11 +11,7 @@ class ApartmentBloc {
       String currentAddress) async {
     ApartmentModel apartmentModel = ApartmentModel();
 
-    final preferences = await SharedPreferences.getInstance();
-    final userPreferences = preferences.getString("userData");
-    final userJsonData = json.decode(userPreferences!);
-
-    final userToken = userJsonData["token"];
+    final userToken = await Services.getUserToken();
 
     // api request to get apartments near current user
     ApartmentAPI apartmentAPI = ApartmentAPI(token: userToken);

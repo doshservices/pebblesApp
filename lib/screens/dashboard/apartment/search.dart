@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pebbles/bloc/apartmentBloc.dart';
 import 'package:pebbles/constants.dart';
-import 'package:pebbles/model/apartment_model';
-import 'package:pebbles/utils/shared/custom_textformfield.dart';
-import 'package:pebbles/utils/shared/rounded_raised_button.dart';
+import 'package:pebbles/model/apartment_model.dart';
 import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
 
 class Search extends StatefulWidget {
@@ -133,6 +131,7 @@ class _SearchState extends State<Search> {
                         );
                       } else {
                         return ListView.builder(
+                            padding: EdgeInsets.zero,
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount:

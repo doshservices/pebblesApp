@@ -117,28 +117,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             );
           });
 
-      // showDialog(
-      //     context: context,
-      //     barrierDismissible: false,
-      //     builder: (ctx) {
-      //       return AlertDialog(
-      //         title: Text("Registration Successful"),
-      //         content: Text("Account has been successfully created"),
-      //         actions: [
-      //           Container(
-      //             width: 150,
-      //             child: CustomDefaultButton(
-      //               text: "Login",
-      //               onPressed: () {
-      //                 Navigator.of(context).pop();
-      //                 Navigator.of(context).pop();
-      //                 Navigator.of(context).pushReplacementNamed(kLogin);
-      //               },
-      //             ),
-      //           )
-      //         ],
-      //       );
-      //     });
     } on HttpException catch (error) {
       // error on otp
       ErrorSnackBar.displaySnackBar('Error!', '${error.toString()}');

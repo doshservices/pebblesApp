@@ -9,7 +9,7 @@ class ApartmentModel {
 
   ApartmentModel.fromJson(Map<String, dynamic> json) {
     // success request returns empty status
-     try {
+    try {
       status = json['status'];
     } catch (e) {
       status = 'success';
@@ -30,9 +30,13 @@ class ApartmentModel {
 
 /// Apartment data
 class Data {
+  /// valid for requests with a list of apartments
   List<Apartment>? apartments;
 
-  Data({this.apartments});
+  /// valid for requests with single apartment
+  Apartment? apartment;
+
+  Data({this.apartments, this.apartment});
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['apartments'] != null) {
@@ -41,6 +45,10 @@ class Data {
         apartments!.add(new Apartment.fromJson(v));
       });
     }
+
+    apartment = json['apartment'] != null
+        ? new Apartment.fromJson(json['apartment'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -48,10 +56,14 @@ class Data {
     if (this.apartments != null) {
       data['apartments'] = this.apartments!.map((v) => v.toJson()).toList();
     }
+
+    if (this.apartment != null) {
+      data['apartment'] = this.apartment!.toJson();
+    }
+
     return data;
   }
 }
-
 
 /// Apartment class
 class Apartment {

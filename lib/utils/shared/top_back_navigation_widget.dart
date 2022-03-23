@@ -10,7 +10,7 @@ class TopBackNavigationWidget extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 20,
+          height: 40,
         ),
         Row(
           children: [

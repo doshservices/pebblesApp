@@ -3,7 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:pebbles/constants.dart';
 import 'package:pebbles/provider/auth.dart';
 import 'package:pebbles/screens/dashboard/adds_on/adds_on.dart';
+import 'package:pebbles/screens/dashboard/apartment/book_apartment_preview.dart';
+import 'package:pebbles/screens/dashboard/bookings/bookings_checkout.dart';
 import 'package:pebbles/screens/dashboard/bookings/bookings_detail.dart';
+import 'package:pebbles/screens/dashboard/carts.dart/carts_page.dart';
 
 import 'package:pebbles/screens/splashscreen.dart';
 import 'package:pebbles/screens/auth/walkthrough.dart';
@@ -34,8 +37,9 @@ import 'package:pebbles/screens/dashboard/list_options/my_apartment_details.dart
 import 'package:pebbles/screens/dashboard/list_options/my_event_details.dart';
 import 'package:pebbles/screens/dashboard/events/events.dart';
 import 'package:pebbles/screens/dashboard/events/event_details.dart';
-import 'package:pebbles/screens/dashboard/search/search.dart';
-import 'package:pebbles/screens/dashboard/search/apartment_detail.dart';
+import 'package:pebbles/screens/dashboard/apartment/search.dart';
+import 'package:pebbles/screens/dashboard/apartment/apartment_detail.dart';
+import 'package:pebbles/screens/dashboard/apartment/book_apartment.dart';
 import 'package:pebbles/screens/dashboard/holiday/holiday.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -119,6 +123,10 @@ class _MyAppState extends State<MyApp> {
               kEventDetails: (ctx) => EventDetails(),
               kSearch: (ctx) => Search(),
               kApartmentDetail: (ctx) => ApartmentDetail(),
+              KBookApartmentPreview: (ctx) => BookApartmentPreview(),
+              kBookApartment: (ctx) => BookApartment(),
+              KBookingsCheckout: (ctx) => BookingsCheckout(),
+              KCartPage: (ctx) => CartsPage(),
               kHoliday: (ctx) => Holiday(),
               kAddsOn: (ctx) => AddsOn(),
             },

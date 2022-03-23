@@ -155,6 +155,8 @@ class _DashboardState extends State<Dashboard> {
             currentIndex: _selectedPageIndex,
             selectedItemColor: Theme.of(context).primaryColor,
             unselectedItemColor: Colors.white,
+            selectedLabelStyle: TextStyle(fontFamily: 'Gilroy', fontSize: 15),
+            unselectedLabelStyle: TextStyle(fontFamily: 'Gilroy', fontSize: 15),
             items: [
               BottomNavigationBarItem(
                 icon: Image.asset(
@@ -204,20 +206,6 @@ class _DashboardState extends State<Dashboard> {
                     fit: BoxFit.contain,
                     color: Theme.of(context).primaryColor),
               ),
-              // BottomNavigationBarItem(
-              //   icon: Image.asset(
-              //     "${_pages[4]['icon']}",
-              //     height: 16,
-              //     fit: BoxFit.contain,
-              //   ),
-              //   title: Text(
-              //     "${_pages[4]['title']}",
-              //   ),
-              //   activeIcon: Image.asset("${_pages[4]['icon']}",
-              //       height: 20,
-              //       fit: BoxFit.contain,
-              //       color: Theme.of(context).primaryColor),
-              // ),
             ],
           ),
         ),

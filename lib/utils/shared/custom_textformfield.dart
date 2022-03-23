@@ -10,6 +10,8 @@ class CustomTextFormField extends StatelessWidget {
   bool enabled;
   final void Function()? iconPressed;
   final String? Function(String?)? validator, onSaved;
+  Color? textColor;
+  InputBorder? darkInputBorder;
 
   CustomTextFormField(
       {this.labelText,
@@ -20,6 +22,8 @@ class CustomTextFormField extends StatelessWidget {
       this.lines = 1,
       this.iconPressed,
       this.keyboardType = TextInputType.text,
+      this.darkInputBorder,
+      this.textColor,
       this.controller,
       this.onSaved,
       this.validator});
@@ -97,12 +101,13 @@ class CustomTextFormField extends StatelessWidget {
                     // ),
                     // border: InputBorder.none,
                     // contentPadding: EdgeInsets.all(15),
+
                     labelText: labelText,
                     labelStyle: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'Gilroy',
-                      fontWeight: FontWeight.w700,
-                    ),
+                        fontSize: 18,
+                        fontFamily: 'Gilroy',
+                        fontWeight: FontWeight.w700,
+                        color: textColor),
                     hintStyle: TextStyle(
                       fontSize: 17,
                       fontFamily: 'Gilroy',
@@ -110,6 +115,7 @@ class CustomTextFormField extends StatelessWidget {
                     ),
                     suffixIconConstraints: BoxConstraints(minWidth: 125),
                     enabled: enabled,
+                    enabledBorder: darkInputBorder,
                     // hintText: labelText,
                     // disabledBorder: InputBorder.none,
                     // enabledBorder: InputBorder.none,

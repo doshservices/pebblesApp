@@ -6,8 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:pebbles/bloc/apartmentBloc.dart';
 import 'package:pebbles/constants.dart';
-import 'package:pebbles/model/apartment_model';
-import 'package:pebbles/provider/apartment_api.dart';
+import 'package:pebbles/model/apartment_model.dart';
 import 'package:pebbles/utils/shared/error_snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -355,7 +354,8 @@ class _HomePageState extends State<HomePage> {
                       } else {
                         int apartmentLength =
                             _apartmentModel.data?.apartments?.length ?? 0;
-                        double height = 250.0;
+                        double height =
+                            MediaQuery.of(context).size.height / 2.6;
 
                         if (apartmentLength <= 0) {
                           height = 0;
@@ -369,9 +369,10 @@ class _HomePageState extends State<HomePage> {
                               child: ListView.builder(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
-                                itemCount:
-                                    _apartmentModel.data?.apartments?.length ??
-                                        0,
+                                itemCount: _apartmentModel.data?.apartments
+                                        ?.take(20)
+                                        .length ??
+                                    0,
                                 itemBuilder: (context, index) {
                                   return ApartmentItem(
                                       apartment: _apartmentModel
@@ -395,11 +396,17 @@ class _HomePageState extends State<HomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text("See more",
-                      style: TextStyle(
-                          fontFamily: 'Gilroy',
-                          fontSize: 16,
-                          color: Theme.of(context).accentColor)),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(kSearch,
+                          arguments: {'location': _currentAddress ?? "Lagos"});
+                    },
+                    child: Text("See more",
+                        style: TextStyle(
+                            fontFamily: 'Gilroy',
+                            fontSize: 16,
+                            color: Theme.of(context).accentColor)),
+                  ),
                 ],
               ),
               SizedBox(height: 20),
@@ -468,63 +475,85 @@ class ApartmentItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
-      clipBehavior: Clip.hardEdge,
-      child: Container(
-        width: MediaQuery.of(context).size.width / 2.6,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.asset(
-              "assets/images/hotel2.png",
-              width: MediaQuery.of(context).size.width / 2.6,
-              height: MediaQuery.of(context).size.height / 5,
-              fit: BoxFit.cover,
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(7, 4, 2, 5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      apartment?.apartmentName ?? "",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Gilroy',
-                          fontSize: 16),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5.0),
-                    child: Text(
-                      '${apartment?.address}, ${apartment?.apartmentState}, ${apartment?.apartmentCountry}',
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
+    int count = apartment!.apartmentImages!.length;
+
+    if (apartment != null) {
+      if (apartment!.apartmentImages != null) {
+        print("not null");
+      }
+    }
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context)
+            .pushNamed(kApartmentDetail, arguments: {'apartment': apartment});
+      },
+      child: Card(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        clipBehavior: Clip.hardEdge,
+        child: Container(
+          width: MediaQuery.of(context).size.width / 2.6,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              count > 0
+                  ? Image.network(
+                      apartment!.apartmentImages!.first,
+                      width: MediaQuery.of(context).size.width / 2.6,
+                      height: MediaQuery.of(context).size.height / 5,
+                      fit: BoxFit.cover,
+                    )
+                  : Container(
+                      width: MediaQuery.of(context).size.width / 2.6,
+                      height: MediaQuery.of(context).size.height / 5,
+                      child: Center(
+                        child: Text("No Image",
+                            style: TextStyle(fontFamily: 'Gilroy')),
+                      )),
+              Padding(
+                padding: EdgeInsets.fromLTRB(7, 4, 2, 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        apartment?.apartmentName ?? "",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Gilroy',
+                            fontSize: 16),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 5.0, top: 5, bottom: 5),
-                    child: Text(
-                      "N${formatCurrency.format(apartment?.price)} /night",
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Gilroy'),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5.0),
+                      child: Text(
+                        '${apartment?.address}, ${apartment?.apartmentState}, ${apartment?.apartmentCountry}',
+                        style: TextStyle(
+                          fontFamily: 'Gilroy',
+                        ),
+                      ),
                     ),
-                  )
-                ],
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 5.0, top: 5, bottom: 5),
+                      child: Text(
+                        "N${formatCurrency.format(apartment?.price)} /night",
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Gilroy'),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

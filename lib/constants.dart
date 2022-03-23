@@ -43,11 +43,15 @@ const kEventListings = "eventlistings";
 const kMyApartments = "myapartments";
 const kMyEvents = "myevents";
 const kMyApartmentDetail = "myapartmentdetail";
+const KBookApartmentPreview = "bookapartmentpreview";
 const kMyEventDetails = "myeventdetails";
 const kEvents = "events";
 const kEventDetails = " eventdetails";
 const kSearch = "search";
 const kApartmentDetail = "apartmentdetail";
+const kBookApartment = "bookapartment";
+const KBookingsCheckout = "bookingscheckout";
+const KCartPage = "cart";
 const kHoliday = "holiday";
 const kAddsOn = "addson";
 // SCREEN END

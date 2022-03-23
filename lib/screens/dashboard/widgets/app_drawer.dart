@@ -74,7 +74,7 @@ class AppDrawer extends StatelessWidget {
                       "Profile",
                       style: TextStyle(
                         fontFamily: 'Gilroy',
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
                       ),
@@ -84,7 +84,7 @@ class AppDrawer extends StatelessWidget {
                     },
                   ),
                   SizedBox(
-                    height: 7,
+                    height: 4,
                   ),
                   ListTile(
                     leading: Image.asset(
@@ -92,10 +92,10 @@ class AppDrawer extends StatelessWidget {
                       width: 40,
                     ),
                     title: Text(
-                      "Bookings and Reservations",
+                      "Bookings and reservations",
                       style: TextStyle(
                         fontFamily: 'Gilroy',
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
                       ),
@@ -105,7 +105,7 @@ class AppDrawer extends StatelessWidget {
                     },
                   ),
                   SizedBox(
-                    height: 7,
+                    height: 4,
                   ),
                   ListTile(
                     leading: Image.asset(
@@ -116,7 +116,7 @@ class AppDrawer extends StatelessWidget {
                       "List homes and Events",
                       style: TextStyle(
                         fontFamily: 'Gilroy',
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
                       ),
@@ -126,7 +126,7 @@ class AppDrawer extends StatelessWidget {
                     },
                   ),
                   SizedBox(
-                    height: 7,
+                    height: 4,
                   ),
                   ListTile(
                     leading: Image.asset(
@@ -137,7 +137,7 @@ class AppDrawer extends StatelessWidget {
                       "My Apartments",
                       style: TextStyle(
                         fontFamily: 'Gilroy',
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
                       ),
@@ -147,7 +147,7 @@ class AppDrawer extends StatelessWidget {
                     },
                   ),
                   SizedBox(
-                    height: 7,
+                    height: 4,
                   ),
                   ListTile(
                     leading: Image.asset(
@@ -158,7 +158,7 @@ class AppDrawer extends StatelessWidget {
                       "My Events",
                       style: TextStyle(
                         fontFamily: 'Gilroy',
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
                       ),
@@ -168,7 +168,7 @@ class AppDrawer extends StatelessWidget {
                     },
                   ),
                   SizedBox(
-                    height: 7,
+                    height: 4,
                   ),
                   ListTile(
                     leading: Image.asset(
@@ -179,7 +179,7 @@ class AppDrawer extends StatelessWidget {
                       "Withdrawal",
                       style: TextStyle(
                         fontFamily: 'Gilroy',
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
                       ),
@@ -189,7 +189,7 @@ class AppDrawer extends StatelessWidget {
                     },
                   ),
                   SizedBox(
-                    height: 7,
+                    height: 4,
                   ),
                   ListTile(
                     leading: Image.asset(
@@ -200,14 +200,14 @@ class AppDrawer extends StatelessWidget {
                       "Adds-on",
                       style: TextStyle(
                         fontFamily: 'Gilroy',
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 7,
+                    height: 4,
                   ),
                   ListTile(
                     leading: Image.asset(
@@ -218,14 +218,14 @@ class AppDrawer extends StatelessWidget {
                       "Settings",
                       style: TextStyle(
                         fontFamily: 'Gilroy',
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 7,
+                    height: 4,
                   ),
                   ListTile(
                     leading: Image.asset(
@@ -236,14 +236,14 @@ class AppDrawer extends StatelessWidget {
                       "Terms & Conditions",
                       style: TextStyle(
                         fontFamily: 'Gilroy',
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 7,
+                    height: 4,
                   ),
                   ListTile(
                     leading: Image.asset(
@@ -254,7 +254,7 @@ class AppDrawer extends StatelessWidget {
                       "Logout",
                       style: TextStyle(
                         fontFamily: 'Gilroy',
-                        fontSize: 18,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
                       ),

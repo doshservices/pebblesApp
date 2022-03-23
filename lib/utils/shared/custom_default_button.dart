@@ -48,15 +48,19 @@ class CustomDefaultButton extends StatelessWidget {
               Visibility(
                 visible: isLoading ? false : true,
                 child: Center(
-                  child: Text(
-                    text,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'Gilroy',
-                      fontWeight: FontWeight.bold,
-                      color: isPrimaryButton
-                          ? Colors.white
-                          : Theme.of(context).primaryColor,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0, vertical: 8.0),
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'Gilroy',
+                        fontWeight: FontWeight.bold,
+                        color: isPrimaryButton
+                            ? Colors.white
+                            : Theme.of(context).primaryColor,
+                      ),
                     ),
                   ),
                 ),

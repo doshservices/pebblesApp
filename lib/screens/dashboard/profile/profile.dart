@@ -3,7 +3,9 @@ import 'package:pebbles/constants.dart';
 import 'package:pebbles/model/registration.dart';
 import 'package:pebbles/model/user_model.dart';
 import 'package:pebbles/provider/auth.dart';
+import 'package:pebbles/utils/shared/custom_default_button.dart';
 import 'package:pebbles/utils/shared/rounded_raised_button.dart';
+import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
@@ -25,44 +27,26 @@ class _ProfileState extends State<Profile> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/bg.png"),
-            ),
+                image: AssetImage("assets/images/bg.png"), fit: BoxFit.fill),
             color: Colors.grey.withOpacity(0.2)),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 40,
-              ),
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back_ios,
-                          size: 16,
-                        ),
-                        Text("Back"),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
+              TopBackNavigationWidget(),
               ListTile(
                 leading: Image.asset(
                   "assets/images/image.png",
                   width: 40,
                 ),
                 contentPadding: EdgeInsets.all(0),
-                title: Text("Profile"),
+                title: Text(
+                  "Profile",
+                  style: TextStyle(
+                      fontFamily: 'Gilroy',
+                      fontSize: 21,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
               SizedBox(
                 height: 20,
@@ -70,17 +54,19 @@ class _ProfileState extends State<Profile> {
               Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      "${user.profilePhoto}",
-                    ),
-                    backgroundColor: Colors.grey.withOpacity(0.5),
-                  ),
+                      backgroundImage: NetworkImage(
+                        "${user.profilePhoto}",
+                      ),
+                      backgroundColor: Colors.grey.withOpacity(0.5)),
                   SizedBox(
                     width: 15,
                   ),
                   Text(
                     "${user.fullName}",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontFamily: 'Gilroy',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
                   )
                 ],
               ),
@@ -89,8 +75,9 @@ class _ProfileState extends State<Profile> {
               ),
               Text("Personal Information",
                   style: TextStyle(
+                      fontFamily: 'Gilroy',
                       color: Theme.of(context).primaryColor,
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 15,
@@ -100,10 +87,16 @@ class _ProfileState extends State<Profile> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Full name"),
+                    Text(
+                      "Full name",
+                      style: TextStyle(fontFamily: 'Gilroy', fontSize: 18),
+                    ),
                     Text(
                       "${user.fullName}",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: 'Gilroy',
+                          fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -113,10 +106,14 @@ class _ProfileState extends State<Profile> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Phone number"),
+                    Text("Phone number",
+                        style: TextStyle(fontFamily: 'Gilroy', fontSize: 18)),
                     Text(
                       "${user.phoneNumber}",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Gilroy',
+                          fontSize: 18),
                     )
                   ],
                 ),
@@ -126,27 +123,28 @@ class _ProfileState extends State<Profile> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Email"),
-                    Text(
-                      "${user.email}",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )
+                    Text("Email",
+                        style: TextStyle(fontFamily: 'Gilroy', fontSize: 18)),
+                    Text("${user.email}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Gilroy',
+                            fontSize: 18))
                   ],
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 35,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RoundedRaisedButton(
-                    label: "Change Password",
+                  CustomDefaultButton(
+                    text: "Change Password",
                     onPressed: () {
                       Navigator.of(context).pushNamed(kChangePassword);
                     },
                   ),
-                  Text("**********")
                 ],
               )
             ],
