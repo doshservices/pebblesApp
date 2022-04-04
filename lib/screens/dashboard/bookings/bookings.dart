@@ -28,12 +28,14 @@ class _BookingsState extends State<Bookings> {
     BookingAPI bookingAPI = BookingAPI(token: userToken);
     _bookingModel = await bookingAPI.getBookingByUserId();
 
-    // get bookings that have been paid for
-    _bookingModel.data!.bookings = _bookingModel.data!.bookings!
-        .where((element) =>
-            element.bookingStatus != null &&
-            element.bookingStatus != "CANCELLED")
-        .toList();
+    if (_bookingModel.data != null) {
+      // get bookings that have been paid for
+      _bookingModel.data!.bookings = _bookingModel.data!.bookings!
+          .where((element) =>
+              element.bookingStatus != null &&
+              element.bookingStatus != "CANCELLED")
+          .toList();
+    }
 
     return _bookingModel;
   }
@@ -88,7 +90,7 @@ class _BookingsState extends State<Bookings> {
                             style: TextStyle(
                                 fontFamily: 'Gilroy',
                                 fontWeight: FontWeight.w900,
-                                fontSize: 23.0),
+                                fontSize: 20.0),
                           ))
                         ],
                       ));
@@ -124,6 +126,7 @@ class _BookingsState extends State<Bookings> {
                               Center(
                                   child: Text(
                                 'All your reserved bookings would appear here',
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: 'Gilroy',
                                     fontWeight: FontWeight.w700,

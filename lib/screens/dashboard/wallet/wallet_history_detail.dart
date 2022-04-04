@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pebbles/utils/shared/rounded_raised_button.dart';
+import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
 
 class WalletHistoryDetail extends StatelessWidget {
   @override
@@ -11,41 +12,18 @@ class WalletHistoryDetail extends StatelessWidget {
         padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/bg.png"),
-            ),
+                image: AssetImage("assets/images/bg.png"), fit: BoxFit.fill),
             color: Colors.grey.withOpacity(0.2)),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 40,
-              ),
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back_ios,
-                          size: 16,
-                        ),
-                        Text("Back"),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
+              TopBackNavigationWidget(),
+              SizedBox(height: 10),
               Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: AssetImage(
@@ -53,48 +31,48 @@ class WalletHistoryDetail extends StatelessWidget {
                     ),
                   ),
                 ),
-                height: 120,
                 padding: EdgeInsets.all(20),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Wallet Balance",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Image.asset("assets/images/Cards.png")
-                      ],
-                    ),
-                    Text(
-                      "N200,000",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Wallet Balance",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontFamily: 'Gilroy'),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 6.0),
+                                child: Text(
+                                  "N200,000",
+                                  style: TextStyle(
+                                    fontFamily: 'Gilroy',
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Image.asset("assets/images/Cards.png")
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
               SizedBox(
-                height: 20,
-              ),
-              Card(
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  width: MediaQuery.of(context).size.width,
-                  child: RoundedRaisedButton(
-                    label: "Buy Voucher",
-                    onPressed: () {},
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
+                height: 40,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -102,6 +80,7 @@ class WalletHistoryDetail extends StatelessWidget {
                   Text(
                     "Cubana",
                     style: TextStyle(
+                      fontFamily: 'Gilroy',
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).primaryColor,
                       fontSize: 18,
@@ -112,59 +91,75 @@ class WalletHistoryDetail extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Text("20 November, 2020"),
+              Text("20 November, 2020", style: TextStyle(fontSize: 16)),
               SizedBox(
                 height: 10,
               ),
-              Text("10:46 AM"),
+              Text("10:46 AM", style: TextStyle(fontSize: 16)),
               SizedBox(
-                height: 20,
+                height: 25,
               ),
-              Text("Lola rae", style: TextStyle(fontWeight: FontWeight.bold)),
+              Text("Lola rae",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Card(
+                elevation: 0.0,
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Cubana apartment"),
-                          Text("₦160,00.00"),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Cubana apartment",
+                                style: TextStyle(fontSize: 16)),
+                            Text("N160,00.00", style: TextStyle(fontSize: 16))
+                          ],
+                        ),
                       ),
-                      Divider(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Food"),
-                          Text("₦20,00.00"),
-                        ],
+                      Divider(thickness: 1.2),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Cubana apartment",
+                                style: TextStyle(fontSize: 16)),
+                            Text("N160,00.00", style: TextStyle(fontSize: 16))
+                          ],
+                        ),
                       ),
-                      Divider(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Ride"),
-                          Text("₦20,00.00"),
-                        ],
+                      Divider(thickness: 1.2),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Cubana apartment",
+                                style: TextStyle(fontSize: 16)),
+                            Text("N160,00.00", style: TextStyle(fontSize: 16))
+                          ],
+                        ),
                       ),
-                      Divider(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(""),
-                          Text(
-                            "₦200,00.00",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                                color: Theme.of(context).primaryColor),
-                          ),
-                        ],
+                      Divider(thickness: 1.2),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              "N200,00.00",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: Theme.of(context).primaryColor),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

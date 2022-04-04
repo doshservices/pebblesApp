@@ -29,20 +29,23 @@ class AppDrawer extends StatelessWidget {
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(17, 10, 10, 0),
+                  padding: EdgeInsets.fromLTRB(20, 20, 10, 0),
                   child: Row(
                     children: [
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          "${user.profilePhoto}",
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(kProfile);
+                        },
+                        child: CircleAvatar(
+                          child: ClipOval(child: Icon(Icons.person)),
+                          backgroundColor: Theme.of(context).primaryColorLight,
                         ),
-                        backgroundColor: Colors.grey.withOpacity(0.5),
                       ),
                       SizedBox(
                         width: 15,
                       ),
                       Text(
-                        "${user.fullName}",
+                        "${user.fullName!.split(' ').first}",
                         style: TextStyle(
                           fontWeight: FontWeight.w900,
                           fontSize: 21,
@@ -59,33 +62,13 @@ class AppDrawer extends StatelessWidget {
               height: 10,
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 60.0),
+              padding: const EdgeInsets.only(right: 60.0, top: 10),
               child: Divider(),
             ),
             Expanded(
               child: ListView(
+                padding: EdgeInsets.zero,
                 children: [
-                  ListTile(
-                    leading: Image.asset(
-                      "assets/images/image.png",
-                      width: 40,
-                    ),
-                    title: Text(
-                      "Profile",
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pushNamed(kProfile);
-                    },
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
                   ListTile(
                     leading: Image.asset(
                       "assets/images/image.png",
@@ -113,28 +96,7 @@ class AppDrawer extends StatelessWidget {
                       width: 40,
                     ),
                     title: Text(
-                      "List homes and Events",
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pushNamed(kListOptions);
-                    },
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  ListTile(
-                    leading: Image.asset(
-                      "assets/images/image.png",
-                      width: 40,
-                    ),
-                    title: Text(
-                      "My Apartments",
+                      "List Apartments",
                       style: TextStyle(
                         fontFamily: 'Gilroy',
                         fontSize: 17,
@@ -155,7 +117,7 @@ class AppDrawer extends StatelessWidget {
                       width: 40,
                     ),
                     title: Text(
-                      "My Events",
+                      "Events",
                       style: TextStyle(
                         fontFamily: 'Gilroy',
                         fontSize: 17,
@@ -205,65 +167,6 @@ class AppDrawer extends StatelessWidget {
                         letterSpacing: 1,
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  ListTile(
-                    leading: Image.asset(
-                      "assets/images/image.png",
-                      width: 40,
-                    ),
-                    title: Text(
-                      "Settings",
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  ListTile(
-                    leading: Image.asset(
-                      "assets/images/image.png",
-                      width: 40,
-                    ),
-                    title: Text(
-                      "Terms & Conditions",
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  ListTile(
-                    leading: Image.asset(
-                      "assets/images/image.png",
-                      width: 40,
-                    ),
-                    title: Text(
-                      "Logout",
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                    onTap: () {
-                      auth.logout();
-                      Navigator.of(context)
-                          .pushNamedAndRemoveUntil(kLogin, (route) => false);
-                    },
                   ),
                 ],
               ),

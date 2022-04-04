@@ -54,10 +54,9 @@ class _ProfileState extends State<Profile> {
               Row(
                 children: [
                   CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        "${user.profilePhoto}",
-                      ),
-                      backgroundColor: Colors.grey.withOpacity(0.5)),
+                    child: ClipOval(child: Icon(Icons.person)),
+                    backgroundColor: Theme.of(context).primaryColorLight,
+                  ),
                   SizedBox(
                     width: 15,
                   ),
@@ -136,17 +135,12 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: 35,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomDefaultButton(
-                    text: "Change Password",
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(kChangePassword);
-                    },
-                  ),
-                ],
-              )
+              CustomDefaultButton(
+                text: "Settings",
+                onPressed: () {
+                  Navigator.of(context).pushNamed(KSettings);
+                },
+              ),
             ],
           ),
         ),

@@ -83,10 +83,11 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TopBackNavigationWidget(),
+                SizedBox(height: 45),
+                //TopBackNavigationWidget(),
 
                 Text(
-                  "Continue Registration",
+                  "Register your account",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
@@ -151,16 +152,15 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
                 ),
                 CustomTextFormField(
                   labelText: "Password",
-                  obscureText: true,
-                  // suffixIcon: _obscurePassword
-                  //         ? Icon(Icons.visibility_off)
-                  //         : Icon(Icons.visibility_rounded),
-                  //     obscureText: _obscurePassword,
-                  //     suffixIconPressed: () {
-                  //       setState(() {
-                  //         _obscurePassword = !_obscurePassword;
-                  //       });
-                  //     },
+                  icon: _obscurePassword
+                      ? Icon(Icons.visibility_off)
+                      : Icon(Icons.visibility_rounded),
+                  obscureText: _obscurePassword,
+                  iconPressed: () {
+                    setState(() {
+                      _obscurePassword = !_obscurePassword;
+                    });
+                  },
                   controller: _passwordController,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -173,7 +173,15 @@ class _CreateUserAccountState extends State<CreateUserAccount> {
                 ),
                 CustomTextFormField(
                   labelText: "Confirm password",
-                  obscureText: true,
+                  icon: _obscurePassword
+                      ? Icon(Icons.visibility_off)
+                      : Icon(Icons.visibility_rounded),
+                  obscureText: _obscurePassword,
+                  iconPressed: () {
+                    setState(() {
+                      _obscurePassword = !_obscurePassword;
+                    });
+                  },
                   validator: (value) {
                     if (_passwordController.text != value) {
                       return "Password not the same";

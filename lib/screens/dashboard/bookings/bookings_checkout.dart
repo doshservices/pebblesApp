@@ -75,6 +75,14 @@ class _BookingsCheckoutState extends State<BookingsCheckout> {
                           onPressed: () {},
                           isPrimaryButton: false),
                     ),
+                    SizedBox(height: 10),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: CustomDefaultButton(
+                          text: "Pay with bank transfer",
+                          onPressed: () {},
+                          isPrimaryButton: false),
+                    ),
                   ],
                 ),
               )

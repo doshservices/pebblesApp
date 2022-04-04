@@ -532,7 +532,7 @@ class ApartmentItem extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 5.0),
                       child: Text(
-                        '${apartment?.address}, ${apartment?.apartmentState}, ${apartment?.apartmentCountry}',
+                        '${apartment?.apartmentState}, ${apartment?.apartmentCountry}',
                         style: TextStyle(
                           fontFamily: 'Gilroy',
                         ),

@@ -64,8 +64,8 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TopBackNavigationWidget(),
-
+                //TopBackNavigationWidget(),
+                SizedBox(height: 40),
                 Text(
                   "Welcome Back,",
                   style: TextStyle(

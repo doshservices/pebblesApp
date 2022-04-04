@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class CustomDefaultButton extends StatelessWidget {
   final void Function()? onPressed;
   final bool isLoading;
+  final Color borderColor;
   final String text;
   // true : uses default gradient with primary color
   // false : uses plain white color
@@ -13,6 +14,7 @@ class CustomDefaultButton extends StatelessWidget {
       this.onPressed,
       this.text = '',
       this.isLoading = false,
+      this.borderColor = const Color(0xFF00000000),
       this.isPrimaryButton = true})
       : super(key: key);
 
@@ -24,23 +26,23 @@ class CustomDefaultButton extends StatelessWidget {
         height: 55.0,
         // alignment: Alignment.center,
         decoration: BoxDecoration(
-          // true : uses default gradient with primary color
-          // false : uses plain white color
-          color: Colors.white,
-          gradient: isPrimaryButton
-              ? LinearGradient(
-                  colors: [
-                    Theme.of(context).primaryColor.withOpacity(0.9),
-                    Theme.of(context).primaryColor.withOpacity(0.7)
-                    // Color.fromRGBO(0, 52, 154, 0.9),
-                    // Color.fromRGBO(0, 52, 154, 0.7)
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                )
-              : null,
-          borderRadius: BorderRadius.circular(8.0),
-        ),
+            // true : uses default gradient with primary color
+            // false : uses plain white color
+            color: Colors.white,
+            gradient: isPrimaryButton
+                ? LinearGradient(
+                    colors: [
+                      Theme.of(context).primaryColor.withOpacity(0.9),
+                      Theme.of(context).primaryColor.withOpacity(0.7)
+                      // Color.fromRGBO(0, 52, 154, 0.9),
+                      // Color.fromRGBO(0, 52, 154, 0.7)
+                    ],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  )
+                : null,
+            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(color: borderColor, width: 1)),
         child: Center(
           child: Stack(
             children: [

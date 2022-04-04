@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pebbles/constants.dart';
+import 'package:pebbles/utils/shared/custom_default_button.dart';
 import 'package:pebbles/utils/shared/custom_textformfield.dart';
 import 'package:pebbles/utils/shared/rounded_raised_button.dart';
+import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
 
 class ResetPassword extends StatefulWidget {
   @override
@@ -18,40 +20,22 @@ class _ResetPasswordState extends State<ResetPassword> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/bg.png"),
-            ),
+                image: AssetImage("assets/images/bg.png"), fit: BoxFit.fill),
             color: Colors.grey.withOpacity(0.2)),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              TopBackNavigationWidget(),
               SizedBox(
-                height: 40,
-              ),
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_back_ios,
-                          size: 16,
-                        ),
-                        Text("Back"),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 30,
+                height: 10,
               ),
               Text(
                 "Reset Password",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                    fontFamily: 'Gilroy'),
                 textAlign: TextAlign.center,
               ),
               SizedBox(
@@ -59,9 +43,7 @@ class _ResetPasswordState extends State<ResetPassword> {
               ),
               Text(
                 "Please input your email, a link will be sent to you shortly to create a new password",
-                style: TextStyle(
-                  fontSize: 18,
-                ),
+                style: TextStyle(fontSize: 18, fontFamily: 'Gilroy'),
                 // textAlign: TextAlign.center,
               ),
               SizedBox(
@@ -75,8 +57,8 @@ class _ResetPasswordState extends State<ResetPassword> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                child: RoundedRaisedButton(
-                  label: "Change",
+                child: CustomDefaultButton(
+                  text: "Change",
                   onPressed: () {
                     // Navigator.of(context).pushNamed(kChangePassword);
                   },

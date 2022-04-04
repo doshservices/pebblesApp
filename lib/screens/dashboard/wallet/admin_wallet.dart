@@ -3,29 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:pebbles/bloc/services.dart';
 import 'package:pebbles/constants.dart';
-import 'package:pebbles/model/wallet_model.dart';
-import 'package:pebbles/provider/wallet_api.dart';
 import 'package:pebbles/utils/shared/custom_default_button.dart';
 import 'package:pebbles/utils/shared/rounded_raised_button.dart';
 
-class WalletPage extends StatefulWidget {
-  @override
-  State<WalletPage> createState() => _WalletPageState();
-}
-
-class _WalletPageState extends State<WalletPage> {
-  WalletModel _walletModel = WalletModel();
-
-  Future<WalletModel> getCartItems() async {
-    String userToken = await Services.getUserToken();
-
-    // api request to get current user wallet
-    WalletAPI walletAPI = WalletAPI(token: userToken);
-    _walletModel = await walletAPI.getUserWallet();
-
-    return _walletModel;
-  }
-
+class AdminWalletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,62 +43,51 @@ class _WalletPageState extends State<WalletPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            FutureBuilder(
-                                future: getCartItems(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.done) {
-                                    if (_walletModel.status == 'error') {
-                                      return Center(
-                                          child: Text('Could not get data',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontFamily: 'Gilroy',
-                                                  fontWeight: FontWeight.w900,
-                                                  fontSize: 20.0)));
-                                    } else {
-                                      return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Wallet Balance",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.white,
-                                                fontFamily: 'Gilroy'),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 6.0),
-                                            child: Text(
-                                              'N${_walletModel.data?.wallet?.availableBalance ?? 0}',
-                                              style: TextStyle(
-                                                fontFamily: 'Gilroy',
-                                                color: Colors.white,
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    }
-                                  } else if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                            color: Colors.white),
-                                      ),
-                                    );
-                                  }
-                                  return Column();
-                                }),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Available Balance",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontFamily: 'Gilroy'),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 4.0),
+                                  child: Text(
+                                    "N200,000",
+                                    style: TextStyle(
+                                      fontFamily: 'Gilroy',
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                             Image.asset("assets/images/Cards.png")
                           ],
+                        ),
+                      ),
+                      Text(
+                        "Withdrawable Balance",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Gilroy',
+                            fontSize: 16),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          "N200,000",
+                          style: TextStyle(
+                            fontFamily: 'Gilroy',
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
@@ -158,6 +128,21 @@ class _WalletPageState extends State<WalletPage> {
                   ),
                 ),
               ),
+              Card(
+                elevation: 0.0,
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  width: MediaQuery.of(context).size.width,
+                  child: CustomDefaultButton(
+                    text: "Withdraw",
+                    isPrimaryButton: false,
+                    borderColor: Theme.of(context).primaryColor,
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(kWithdrawFunds);
+                    },
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -177,11 +162,11 @@ class _WalletPageState extends State<WalletPage> {
                     SizedBox(
                       height: 10,
                     ),
-                    WalletItem(),
-                    WalletItem(),
-                    WalletItem(),
-                    WalletItem(),
-                    WalletItem(),
+                    AdminWalletItem(),
+                    AdminWalletItem(),
+                    AdminWalletItem(),
+                    AdminWalletItem(),
+                    AdminWalletItem(),
                   ],
                 ),
               ),
@@ -193,8 +178,8 @@ class _WalletPageState extends State<WalletPage> {
   }
 }
 
-class WalletItem extends StatelessWidget {
-  const WalletItem({
+class AdminWalletItem extends StatelessWidget {
+  const AdminWalletItem({
     Key? key,
   }) : super(key: key);
 
@@ -203,7 +188,11 @@ class WalletItem extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-          contentPadding: EdgeInsets.zero,
+          // leading: Image.asset(
+          //   "assets/images/hotel.png",
+          //   width: 40,
+          // ),
+          contentPadding: EdgeInsets.all(0),
           title: Row(
             children: [
               Text(
@@ -215,15 +204,11 @@ class WalletItem extends StatelessWidget {
               ),
               Text(
                 "N30,000",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, fontFamily: 'Gilroy'),
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ],
           ),
-          subtitle: Text(
-            "10:46 AM  20 November, 2020",
-            style: TextStyle(fontFamily: 'Gilroy'),
-          ),
+          subtitle: Text("10:46 AM  20 November, 2020"),
           trailing: Image.asset(
             "assets/images/arrowforward.png",
             width: 40,
@@ -232,9 +217,7 @@ class WalletItem extends StatelessWidget {
             Navigator.of(context).pushNamed(kWalletHistoryDetail);
           },
         ),
-        Divider(
-          thickness: 1.5,
-        )
+        Divider()
       ],
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pebbles/constants.dart';
+import 'package:pebbles/utils/shared/custom_default_button.dart';
 import 'package:pebbles/utils/shared/custom_textformfield.dart';
 import 'package:pebbles/utils/shared/rounded_raised_button.dart';
 
@@ -84,8 +85,8 @@ class _ChangePasswordState extends State<ChangePassword> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                child: RoundedRaisedButton(
-                  label: "Confirm",
+                child: CustomDefaultButton(
+                  text: "Confirm",
                   onPressed: () {
                     // Navigator.of(context).pushNamed(kRegisterHostEmail);
                   },

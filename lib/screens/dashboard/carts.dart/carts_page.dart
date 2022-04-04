@@ -34,10 +34,13 @@ class _CartsPageState extends State<CartsPage> {
     _bookingModel = await bookingAPI.getBookingByUserId();
 
     // get bookings that have not been paid for
-    _bookingModel.data!.bookings = _bookingModel.data!.bookings!
-        .where((element) =>
-            element.bookingStatus != null && element.bookingStatus == "PENDING")
-        .toList();
+    if(_bookingModel.data != null){
+      
+      _bookingModel.data!.bookings = _bookingModel.data?.bookings!
+          .where((element) =>
+              element.bookingStatus != null && element.bookingStatus == "PENDING")
+          .toList();
+    }
 
     return _bookingModel;
   }

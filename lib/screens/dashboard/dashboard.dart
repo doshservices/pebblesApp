@@ -110,14 +110,18 @@ class _DashboardState extends State<Dashboard> {
         drawer: AppDrawer(),
         appBar: AppBar(
           backgroundColor: Colors.grey.withOpacity(0.2),
-          title: Text(
-            "${_pages[_selectedPageIndex]["title"]}",
-            style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'Gilroy',
-                fontSize: 22,
-                fontWeight: FontWeight.bold),
+          title: Image.asset(
+            'assets/images/pebblestext.png',
+            fit: BoxFit.contain,
           ),
+          // title: Text(
+          //   "${_pages[_selectedPageIndex]["title"]}",
+          //   style: TextStyle(
+          //       color: Colors.black,
+          //       fontFamily: 'Gilroy',
+          //       fontSize: 22,
+          //       fontWeight: FontWeight.bold),
+          // ),
           centerTitle: true,
           elevation: 0,
           leading: IconButton(
@@ -137,10 +141,8 @@ class _DashboardState extends State<Dashboard> {
                   Navigator.of(context).pushNamed(kProfile);
                 },
                 child: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    "${user.profilePhoto}",
-                  ),
-                  backgroundColor: Colors.grey.withOpacity(0.5),
+                  child: ClipOval(child: Icon(Icons.person)),
+                  backgroundColor: Theme.of(context).primaryColorLight,
                 ),
               ),
             ),

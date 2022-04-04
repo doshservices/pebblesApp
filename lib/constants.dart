@@ -54,6 +54,7 @@ const KBookingsCheckout = "bookingscheckout";
 const KCartPage = "cart";
 const kHoliday = "holiday";
 const kAddsOn = "addson";
+const KSettings = "settings";
 // SCREEN END
 
 // ROLES

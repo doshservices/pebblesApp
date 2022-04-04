@@ -7,6 +7,7 @@ import 'package:pebbles/screens/dashboard/apartment/book_apartment_preview.dart'
 import 'package:pebbles/screens/dashboard/bookings/bookings_checkout.dart';
 import 'package:pebbles/screens/dashboard/bookings/bookings_detail.dart';
 import 'package:pebbles/screens/dashboard/carts.dart/carts_page.dart';
+import 'package:pebbles/screens/dashboard/profile/settings.dart';
 
 import 'package:pebbles/screens/splashscreen.dart';
 import 'package:pebbles/screens/auth/walkthrough.dart';
@@ -79,6 +80,7 @@ class _MyAppState extends State<MyApp> {
             theme: ThemeData(
               primaryColor: kPrimaryColor,
               accentColor: kAccentColor,
+              fontFamily: "Gilroy",
             ),
             home: auth.isAuth == true
                 ? Dashboard(
@@ -129,6 +131,7 @@ class _MyAppState extends State<MyApp> {
               KCartPage: (ctx) => CartsPage(),
               kHoliday: (ctx) => Holiday(),
               kAddsOn: (ctx) => AddsOn(),
+              KSettings: (ctx) => Settings(),
             },
           );
         },
