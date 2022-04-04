@@ -32,6 +32,7 @@ class _SearchState extends State<Search> {
             ),
             color: Colors.grey.withOpacity(0.2)),
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -167,14 +168,31 @@ class ApartmentListtile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    int count = apartment!.apartmentImages!.length;
+    final Image noImage = Image.asset("assets/images/plain.png", width: 90);
+    String? imageUrl;
+    if (count > 0) {
+      imageUrl = apartment?.apartmentImages?.first;
+    }
+
     return Column(
       children: [
         ListTile(
-          leading: Image.asset(
-            "assets/images/hotel.png",
-            //width: 40,
-            height: 100,
-          ),
+          leading: (imageUrl !=
+                  null) // Only use the network image if the url is not null
+              ? Image.network(
+                  imageUrl,
+                  width: 90,
+                  height: 100,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) =>
+                      (loadingProgress == null)
+                          ? child
+                          : CircularProgressIndicator(),
+                  errorBuilder: (context, error, stackTrace) => noImage,
+                )
+              : noImage,
           contentPadding: EdgeInsets.all(0),
           title: Text(
             apartment?.apartmentName ?? "",
@@ -186,18 +204,28 @@ class ApartmentListtile extends StatelessWidget {
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 6.0),
             child: Text(
-                '${apartment?.address}, ${apartment?.apartmentState}, ${apartment?.apartmentCountry}',
+                '${apartment?.apartmentState}, ${apartment?.apartmentCountry}',
                 style: TextStyle(fontFamily: 'Gilroy', fontSize: 16.0)),
           ),
           trailing: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Text("N${formatCurrency.format(apartment?.price)}",
-                style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontFamily: 'Gilroy',
-                    fontSize: 17.0,
-                    fontWeight: FontWeight.bold)),
-          ),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: RichText(
+                text: TextSpan(
+                    text: '₦',
+                    style: TextStyle(
+                        fontSize: 17.0,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor),
+                    children: [
+                      TextSpan(
+                          text: '${formatCurrency.format(apartment?.price)}',
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontFamily: 'Gilroy',
+                              fontSize: 17.0,
+                              fontWeight: FontWeight.bold))
+                    ]),
+              )),
           onTap: () {
             Navigator.of(context).pushNamed(kApartmentDetail,
                 arguments: {'apartment': apartment});

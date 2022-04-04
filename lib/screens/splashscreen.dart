@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -16,11 +17,9 @@ class SplashScreen extends StatelessWidget {
               Expanded(
                   flex: 2,
                   child: Center(
-                      child: Image.asset(
-                    'assets/images/pebblestext.png',
-                    width: MediaQuery.of(context).size.width / 1.5,
-                    fit: BoxFit.contain,
-                  ))),
+                      child: SvgPicture.asset('assets/images/pebblestext.svg',
+                          width: MediaQuery.of(context).size.width / 1.5,
+                          color: Theme.of(context).primaryColor))),
             ],
           )
         ],

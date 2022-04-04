@@ -34,11 +34,11 @@ class _CartsPageState extends State<CartsPage> {
     _bookingModel = await bookingAPI.getBookingByUserId();
 
     // get bookings that have not been paid for
-    if(_bookingModel.data != null){
-      
+    if (_bookingModel.data != null) {
       _bookingModel.data!.bookings = _bookingModel.data?.bookings!
           .where((element) =>
-              element.bookingStatus != null && element.bookingStatus == "PENDING")
+              element.bookingStatus != null &&
+              element.bookingStatus == "PENDING")
           .toList();
     }
 
@@ -56,82 +56,79 @@ class _CartsPageState extends State<CartsPage> {
             image: DecorationImage(
                 image: AssetImage("assets/images/bg.png"), fit: BoxFit.fill),
             color: Colors.grey.withOpacity(0.2)),
-        child: Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FutureBuilder(
-                future: getCartItems(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (_bookingModel.status == 'error') {
-                      return Expanded(
-                          child: Column(
-                        children: [
-                          Center(
-                              child: Text(
-                            _bookingModel.message ?? 'Could not get data',
-                            style: TextStyle(
-                                fontFamily: 'Gilroy',
-                                fontWeight: FontWeight.w900,
-                                fontSize: 23.0),
-                          ))
-                        ],
-                      ));
-                    } else {
-                      return _bookingModel.data!.bookings!.length > 0
-                          ? Expanded(
-                              child: ListView.builder(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                itemCount: _bookingModel.data!.bookings!.length,
-                                itemBuilder: (context, index) {
-                                  return CartItem(
-                                      token: userToken,
-                                      bookingData:
-                                          _bookingModel.data!.bookings![index]);
-                                },
-                              ),
-                            )
-                          : Expanded(
-                              child: Column(children: [
-                              SizedBox(height: 15),
-                              Center(
-                                  child: Text(
-                                'No item in cart',
-                                style: TextStyle(
-                                    fontFamily: 'Gilroy',
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 23.0),
-                              )),
-                              SizedBox(height: 7),
-                              Center(
-                                  child: CustomDefaultButton(
-                                text: 'Find apartments',
-                                onPressed: () {
-                                  // navigate to dashboard
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                          builder: ((context) => Dashboard(0))),
-                                      (Route<dynamic> route) => false);
-                                },
-                              ))
-                            ]));
-                    }
-                  } else if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FutureBuilder(
+              future: getCartItems(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (_bookingModel.status == 'error') {
                     return Expanded(
-                      child: Column(
-                        children: [LinearProgressIndicator()],
-                      ),
-                    );
+                        child: Column(
+                      children: [
+                        Center(
+                            child: Text(
+                          _bookingModel.message ?? 'Could not get data',
+                          style: TextStyle(
+                              fontFamily: 'Gilroy',
+                              fontWeight: FontWeight.w900,
+                              fontSize: 23.0),
+                        ))
+                      ],
+                    ));
+                  } else {
+                    return _bookingModel.data!.bookings!.length > 0
+                        ? Expanded(
+                            child: ListView.builder(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              itemCount: _bookingModel.data!.bookings!.length,
+                              itemBuilder: (context, index) {
+                                return CartItem(
+                                    token: userToken,
+                                    bookingData:
+                                        _bookingModel.data!.bookings![index]);
+                              },
+                            ),
+                          )
+                        : Column(children: [
+                            SizedBox(height: 35),
+                            Center(
+                                child: Text(
+                              'No item in cart',
+                              style: TextStyle(
+                                  fontFamily: 'Gilroy',
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 20.0),
+                            )),
+                            SizedBox(height: 7),
+                            Center(
+                                child: CustomDefaultButton(
+                              text: 'Find apartments',
+                              onPressed: () {
+                                // navigate to dashboard
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: ((context) => Dashboard(0))),
+                                    (Route<dynamic> route) => false);
+                              },
+                            ))
+                          ]);
                   }
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return Expanded(
+                    child: Column(
+                      children: [LinearProgressIndicator()],
+                    ),
+                  );
+                }
 
-                  return Column();
-                },
-              ),
-            ],
-          ),
+                return Column();
+              },
+            ),
+          ],
         ),
       ),
     );

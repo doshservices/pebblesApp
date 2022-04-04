@@ -34,6 +34,7 @@ dependencies:
   geocoding: ^2.0.2
   carousel_slider: ^4.0.0
   syncfusion_flutter_datepicker: ^19.4.55
+  flutter_svg: ^1.0.3
 
 
 
@@ -49,10 +50,6 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/icon/icon.png"
-
-dependency_overrides:
-  # intl: ^0.16.1
-  http: ^0.13.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

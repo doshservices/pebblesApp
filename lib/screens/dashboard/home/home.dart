@@ -105,6 +105,7 @@ class _HomePageState extends State<HomePage> {
           color: Colors.grey.withOpacity(0.2),
         ),
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -119,6 +120,7 @@ class _HomePageState extends State<HomePage> {
                 child: TextFormField(
                   onFieldSubmitted: (value) {
                     if (value.isNotEmpty) {
+                      value = value.trim();
                       Navigator.of(context)
                           .pushNamed(kSearch, arguments: {'location': value});
                     }
@@ -141,6 +143,7 @@ class _HomePageState extends State<HomePage> {
                           onTap: () {
                             // search using search icon
                             if (location.isNotEmpty) {
+                              location = location.trim();
                               Navigator.of(context).pushNamed(kSearch,
                                   arguments: {'location': location});
                             }
@@ -354,8 +357,7 @@ class _HomePageState extends State<HomePage> {
                       } else {
                         int apartmentLength =
                             _apartmentModel.data?.apartments?.length ?? 0;
-                        double height =
-                            MediaQuery.of(context).size.height / 2.6;
+                        double height = MediaQuery.of(context).size.height / 3;
 
                         if (apartmentLength <= 0) {
                           height = 0;
@@ -367,6 +369,7 @@ class _HomePageState extends State<HomePage> {
                                 child: SizedBox(
                               height: height,
                               child: ListView.builder(
+                                physics: BouncingScrollPhysics(),
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
                                 itemCount: _apartmentModel.data?.apartments
@@ -475,12 +478,17 @@ class ApartmentItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // regulate images
     int count = apartment!.apartmentImages!.length;
-
-    if (apartment != null) {
-      if (apartment!.apartmentImages != null) {
-        print("not null");
-      }
+    final Image noImage = Image.asset(
+      "assets/images/plain.png",
+      width: MediaQuery.of(context).size.width / 2.6,
+      height: MediaQuery.of(context).size.height / 5,
+      fit: BoxFit.fill,
+    );
+    String? imageUrl;
+    if (count > 0) {
+      imageUrl = apartment?.apartmentImages?.first;
     }
 
     return GestureDetector(
@@ -499,20 +507,20 @@ class ApartmentItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              count > 0
+              (imageUrl !=
+                      null) // Only use the network image if the url is not null
                   ? Image.network(
-                      apartment!.apartmentImages!.first,
+                      imageUrl,
                       width: MediaQuery.of(context).size.width / 2.6,
                       height: MediaQuery.of(context).size.height / 5,
                       fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) =>
+                          (loadingProgress == null)
+                              ? child
+                              : CircularProgressIndicator(),
+                      errorBuilder: (context, error, stackTrace) => noImage,
                     )
-                  : Container(
-                      width: MediaQuery.of(context).size.width / 2.6,
-                      height: MediaQuery.of(context).size.height / 5,
-                      child: Center(
-                        child: Text("No Image",
-                            style: TextStyle(fontFamily: 'Gilroy')),
-                      )),
+                  : noImage,
               Padding(
                 padding: EdgeInsets.fromLTRB(7, 4, 2, 5),
                 child: Column(
@@ -541,13 +549,22 @@ class ApartmentItem extends StatelessWidget {
                     Padding(
                       padding:
                           const EdgeInsets.only(left: 5.0, top: 5, bottom: 5),
-                      child: Text(
-                        "N${formatCurrency.format(apartment?.price)} /night",
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Gilroy'),
-                      ),
+                      child: RichText(
+                          textAlign: TextAlign.end,
+                          text: TextSpan(
+                              text: '₦',
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Theme.of(context).primaryColor),
+                              children: [
+                                TextSpan(
+                                    text:
+                                        '${formatCurrency.format(apartment?.price)} /night',
+                                    style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Gilroy')),
+                              ])),
                     )
                   ],
                 ),

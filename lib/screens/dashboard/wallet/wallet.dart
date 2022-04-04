@@ -88,18 +88,27 @@ class _WalletPageState extends State<WalletPage> {
                                                 fontFamily: 'Gilroy'),
                                           ),
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 6.0),
-                                            child: Text(
-                                              'N${_walletModel.data?.wallet?.availableBalance ?? 0}',
-                                              style: TextStyle(
-                                                fontFamily: 'Gilroy',
-                                                color: Colors.white,
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
+                                              padding: const EdgeInsets.only(
+                                                  top: 6.0),
+                                              child: RichText(
+                                                  text: TextSpan(
+                                                      text: '₦',
+                                                      style: TextStyle(
+                                                          fontSize: 24,
+                                                          fontFamily:
+                                                              'Poppins'),
+                                                      children: [
+                                                    TextSpan(
+                                                      text:
+                                                          '${_walletModel.data?.wallet?.availableBalance ?? 0}',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 24,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    )
+                                                  ]))),
                                         ],
                                       );
                                     }
@@ -110,6 +119,7 @@ class _WalletPageState extends State<WalletPage> {
                                       width: 20,
                                       child: Center(
                                         child: CircularProgressIndicator(
+                                            strokeWidth: 2,
                                             color: Colors.white),
                                       ),
                                     );

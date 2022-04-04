@@ -130,7 +130,7 @@ class ApartmentDetail extends StatelessWidget {
                                     ),
                                     SizedBox(height: 5),
                                     Text(
-                                      "${apartment.address}, ${apartment.apartmentState}, ${apartment.apartmentCountry}",
+                                      "${apartment.apartmentState}, ${apartment.apartmentCountry}",
                                       style: TextStyle(
                                           fontFamily: 'Gilroy',
                                           fontSize: 18,
@@ -139,14 +139,26 @@ class ApartmentDetail extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Text(
-                                  'N${formatCurrency.format(apartment.price)}',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Gilroy',
-                                      color: Theme.of(context).primaryColor,
-                                      fontSize: 18.0),
-                                ),
+                                RichText(
+                                    text: TextSpan(
+                                        text: '₦',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Poppins',
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            fontSize: 18.0),
+                                        children: [
+                                      TextSpan(
+                                          text:
+                                              '${formatCurrency.format(apartment.price)}',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'Gilroy',
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              fontSize: 18.0)),
+                                    ])),
                               ],
                             ),
                             SizedBox(
@@ -246,6 +258,7 @@ class ApartmentDetail extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Card(
+                    elevation: 0.0,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8)),
                     child: Padding(
@@ -253,14 +266,25 @@ class ApartmentDetail extends StatelessWidget {
                           horizontal: 20.0, vertical: 10),
                       child: Column(
                         children: [
-                          Text(
-                            'N${formatCurrency.format(apartment.price)}',
-                            style: TextStyle(
-                                fontFamily: 'Gilroy',
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).primaryColor),
-                          ),
+                          RichText(
+                              text: TextSpan(
+                                  text: '₦',
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor),
+                                  children: [
+                                TextSpan(
+                                  text:
+                                      '${formatCurrency.format(apartment.price)}',
+                                  style: TextStyle(
+                                      fontFamily: 'Gilroy',
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor),
+                                )
+                              ])),
                           Text("per night",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,

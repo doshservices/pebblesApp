@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pebbles/model/user_model.dart';
 import 'package:pebbles/provider/auth.dart';
 import 'package:pebbles/screens/dashboard/carts.dart/carts_page.dart';
@@ -110,10 +111,9 @@ class _DashboardState extends State<Dashboard> {
         drawer: AppDrawer(),
         appBar: AppBar(
           backgroundColor: Colors.grey.withOpacity(0.2),
-          title: Image.asset(
-            'assets/images/pebblestext.png',
-            fit: BoxFit.contain,
-          ),
+          title: SvgPicture.asset('assets/images/pebblestext.svg',
+              color: Theme.of(context).primaryColor,
+              width: MediaQuery.of(context).size.width / 2),
           // title: Text(
           //   "${_pages[_selectedPageIndex]["title"]}",
           //   style: TextStyle(
