@@ -502,75 +502,72 @@ class ApartmentItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         clipBehavior: Clip.hardEdge,
-        child: Container(
-          width: MediaQuery.of(context).size.width / 2.6,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              (imageUrl !=
-                      null) // Only use the network image if the url is not null
-                  ? Image.network(
-                      imageUrl,
-                      width: MediaQuery.of(context).size.width / 2.6,
-                      height: MediaQuery.of(context).size.height / 5,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, loadingProgress) =>
-                          (loadingProgress == null)
-                              ? child
-                              : CircularProgressIndicator(),
-                      errorBuilder: (context, error, stackTrace) => noImage,
-                    )
-                  : noImage,
-              Padding(
-                padding: EdgeInsets.fromLTRB(7, 4, 2, 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text(
-                        apartment?.apartmentName ?? "",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Gilroy',
-                            fontSize: 16),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5.0),
-                      child: Text(
-                        '${apartment?.apartmentState}, ${apartment?.apartmentCountry}',
-                        style: TextStyle(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            (imageUrl !=
+                    null) // Only use the network image if the url is not null
+                ? Image.network(
+                    imageUrl,
+                    width: MediaQuery.of(context).size.width / 2.6,
+                    height: MediaQuery.of(context).size.height / 5,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) =>
+                        (loadingProgress == null)
+                            ? child
+                            : CircularProgressIndicator(),
+                    errorBuilder: (context, error, stackTrace) => noImage,
+                  )
+                : noImage,
+            Padding(
+              padding: EdgeInsets.fromLTRB(7, 4, 2, 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text(
+                      apartment?.apartmentName ?? "",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
                           fontFamily: 'Gilroy',
-                        ),
+                          fontSize: 16),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5.0),
+                    child: Text(
+                      '${apartment?.apartmentState}, ${apartment?.apartmentCountry}',
+                      style: TextStyle(
+                        fontFamily: 'Gilroy',
                       ),
                     ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 5.0, top: 5, bottom: 5),
-                      child: RichText(
-                          textAlign: TextAlign.end,
-                          text: TextSpan(
-                              text: '₦',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Theme.of(context).primaryColor),
-                              children: [
-                                TextSpan(
-                                    text:
-                                        '${formatCurrency.format(apartment?.price)} /night',
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Gilroy')),
-                              ])),
-                    )
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 5.0, top: 5, bottom: 5),
+                    child: RichText(
+                        textAlign: TextAlign.end,
+                        text: TextSpan(
+                            text: '₦',
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Theme.of(context).primaryColor),
+                            children: [
+                              TextSpan(
+                                  text:
+                                      '${formatCurrency.format(apartment?.price)} /night',
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Gilroy')),
+                            ])),
+                  )
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

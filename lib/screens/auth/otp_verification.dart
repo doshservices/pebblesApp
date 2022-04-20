@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pebbles/constants.dart';
 import 'package:pebbles/model/http_exception.dart';
+import 'package:pebbles/utils/shared/bottom_sheets.dart';
 import 'package:pebbles/utils/shared/custom_default_button.dart';
 import 'package:pebbles/utils/shared/custom_textformfield.dart';
 import 'package:pebbles/utils/shared/error_snackbar.dart';
@@ -52,71 +53,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       await Provider.of<Auth>(context, listen: false)
           .signUp(userModel, currentText);
 
-      showModalBottomSheet(
-          backgroundColor: Colors.transparent,
-          isDismissible: false,
-          context: context,
-          builder: (ctx) {
-            return Container(
-              //margin: EdgeInsets.only(top: 40),
-              padding: EdgeInsets.only(bottom: 30.0, top: 30.0),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30.0),
-                    topRight: Radius.circular(30.0)),
-              ),
-              child: Column(children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 30.0),
-                  child: Image(
-                    image: AssetImage("assets/images/verified.png"),
-                    height: MediaQuery.of(context).size.height / 10,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                // app name
-                Text(
-                  "Account Verified",
-                  style: TextStyle(
-                      color: Color(0xFF4368B2),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22.0,
-                      fontFamily: 'Gilroy'),
-                ),
-                // Text desc
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text(
-                    "Account has been successfully created",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Gilroy'),
-                  ),
-                ),
-                SizedBox(height: 30),
-                // button
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: CustomDefaultButton(
-                    onPressed: () {
-                      // Navigate to homePage and remove previously stacked screen
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          kLogin, (Route<dynamic> route) => false);
-
-                      // replaces current screen, would the other stacked screen stil be available
-                      //Navigator.of(context).pushReplacementNamed(kLogin);
-                    },
-                    text: 'Login',
-                  ),
-                ),
-              ]),
-            );
-          });
-
+      BottomSheets.modalBottomSheet(context: context);
+      
     } on HttpException catch (error) {
       // error on otp
       ErrorSnackBar.displaySnackBar('Error!', '${error.toString()}');

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pebbles/model/user_model.dart';
 import 'package:pebbles/provider/auth.dart';
-import 'package:pebbles/screens/dashboard/carts.dart/carts_page.dart';
+import 'package:pebbles/screens/dashboard/carts/carts_page.dart';
 import 'package:pebbles/screens/dashboard/chatadmin/chat_admin_page.dart';
 import 'package:pebbles/screens/dashboard/home/home.dart';
 import 'package:pebbles/screens/dashboard/wallet/wallet.dart';

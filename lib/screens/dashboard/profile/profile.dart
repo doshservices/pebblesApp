@@ -61,7 +61,7 @@ class _ProfileState extends State<Profile> {
                     width: 15,
                   ),
                   Text(
-                    "${user.fullName}",
+                    "${user.fullName ?? ''}",
                     style: TextStyle(
                         fontFamily: 'Gilroy',
                         fontSize: 18,
@@ -91,7 +91,7 @@ class _ProfileState extends State<Profile> {
                       style: TextStyle(fontFamily: 'Gilroy', fontSize: 18),
                     ),
                     Text(
-                      "${user.fullName}",
+                      "${user.fullName ?? ''}",
                       style: TextStyle(
                           fontSize: 18,
                           fontFamily: 'Gilroy',

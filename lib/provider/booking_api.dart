@@ -83,18 +83,16 @@ class BookingAPI {
     }
   }
 
-
   /// Cancel booking
   Future<BookingModel> cancelBooking(String bookingId) async {
     try {
+      var uri =
+          Uri.parse('${config.baseUrl}/bookings/cancel-booking/$bookingId');
 
-      var uri = Uri.parse('${config.baseUrl}/bookings/cancel-booking/$bookingId');
-
-      final response = await get(uri,
-          headers: {
-            "content-type": "application/json",
-            "Authorization": "Bearer $token"
-          });
+      final response = await get(uri, headers: {
+        "content-type": "application/json",
+        "Authorization": "Bearer $token"
+      });
 
       var resData = json.decode(response.body);
       if (response.statusCode != 200) {
@@ -110,6 +108,66 @@ class BookingAPI {
           BookingModel(status: "error", message: error.toString());
 
       return bookingModel;
+    }
+  }
+
+  /// pay for pending booking
+  Future<String> payForBookingWithFlutterwave(String bookingId) async {
+    try {
+      var uri = Uri.parse(
+          '${config.baseUrl}/bookings/pay-for/booking?bookingId=$bookingId&paymentMethod=FLUTTERWAVE');
+
+      final response = await get(
+        uri,
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+
+      var resData = json.decode(response.body);
+      if (response.statusCode != 200) {
+        throw HttpException(resData["message"]);
+      }
+
+      // convert json response
+      String paymentURL = resData["data"]["booking"];
+
+      return paymentURL;
+    } catch (error) {
+      throw "Error, something went wrong";
+    }
+  }
+
+  /// pay for pending booking
+  Future<String> verifyBookingPaymentWithFlutterwave(String reference) async {
+    try {
+      var uri =
+          Uri.parse('${config.baseUrl}/bookings/verify-payment/$reference');
+
+      final response = await get(
+        uri,
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+
+      var resData = json.decode(response.body);
+
+      print(resData);
+      print(response.body);
+
+      if (response.statusCode != 200) {
+        throw HttpException(resData["message"]);
+      }
+
+      // convert json response
+      String paymentURL = resData["data"]["booking"];
+
+      return paymentURL;
+    } catch (error) {
+      throw "Error, something went wrong";
     }
   }
 }

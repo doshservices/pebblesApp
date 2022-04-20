@@ -7,15 +7,12 @@ import 'package:pebbles/bloc/services.dart';
 import 'package:pebbles/constants.dart';
 import 'package:pebbles/model/apartment_model.dart';
 import 'package:pebbles/model/booking_model.dart';
-import 'package:pebbles/model/registration.dart';
 import 'package:pebbles/provider/apartment_api.dart';
 import 'package:pebbles/provider/booking_api.dart';
 import 'package:pebbles/screens/dashboard/dashboard.dart';
 import 'package:pebbles/utils/shared/custom_default_button.dart';
 import 'package:pebbles/utils/shared/error_snackbar.dart';
 import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
-import 'package:pebbles/utils/shared/rounded_raised_button.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class BookingsDetails extends StatefulWidget {
   @override

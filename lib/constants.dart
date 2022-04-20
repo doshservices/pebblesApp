@@ -55,6 +55,7 @@ const KCartPage = "cart";
 const kHoliday = "holiday";
 const kAddsOn = "addson";
 const KSettings = "settings";
+const KFlutterwaveCheckout = "flutterwavecheckout";
 // SCREEN END
 
 // ROLES

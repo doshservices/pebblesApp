@@ -6,7 +6,8 @@ import 'package:pebbles/screens/dashboard/adds_on/adds_on.dart';
 import 'package:pebbles/screens/dashboard/apartment/book_apartment_preview.dart';
 import 'package:pebbles/screens/dashboard/bookings/bookings_checkout.dart';
 import 'package:pebbles/screens/dashboard/bookings/bookings_detail.dart';
-import 'package:pebbles/screens/dashboard/carts.dart/carts_page.dart';
+import 'package:pebbles/screens/dashboard/carts/carts_page.dart';
+import 'package:pebbles/screens/dashboard/payment/flutterwave_checkout.dart';
 import 'package:pebbles/screens/dashboard/profile/settings.dart';
 
 import 'package:pebbles/screens/splashscreen.dart';
@@ -128,6 +129,7 @@ class _MyAppState extends State<MyApp> {
               KBookApartmentPreview: (ctx) => BookApartmentPreview(),
               kBookApartment: (ctx) => BookApartment(),
               KBookingsCheckout: (ctx) => BookingsCheckout(),
+              KFlutterwaveCheckout: (ctx) => FlutterwaveCheckout(),
               KCartPage: (ctx) => CartsPage(),
               kHoliday: (ctx) => Holiday(),
               kAddsOn: (ctx) => AddsOn(),

@@ -1,17 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:pebbles/bloc/services.dart';
+import 'package:pebbles/constants.dart';
 import 'package:pebbles/model/booking_model.dart';
+import 'package:pebbles/provider/booking_api.dart';
 import 'package:pebbles/utils/shared/custom_default_button.dart';
+import 'package:pebbles/utils/shared/dialog_widgets.dart';
+import 'package:pebbles/utils/shared/error_snackbar.dart';
 import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
 
-class BookingsCheckout extends StatefulWidget {
-  const BookingsCheckout({Key? key}) : super(key: key);
-
-  @override
-  State<BookingsCheckout> createState() => _BookingsCheckoutState();
-}
-
-class _BookingsCheckoutState extends State<BookingsCheckout> {
+class BookingsCheckout extends StatelessWidget {
+  
+  BookingsCheckout({Key? key}) : super(key: key);
+  
   Booking _booking = Booking();
+  DialogWidgets dialogWidgets = DialogWidgets();
+
+  Future<void> payWithFlutterwave() async {
+    dialogWidgets.showCenterLoadingDialog();
+
+    try {
+      final userToken = await Services.getUserToken();
+
+      BookingAPI bookingAPI = BookingAPI(token: userToken);
+
+      String paymentURL =
+          await bookingAPI.payForBookingWithFlutterwave(_booking.sId!);
+
+      // dismiss dialog
+      Get.back();
+      Get.toNamed(KFlutterwaveCheckout, arguments: paymentURL);
+      
+    } catch (e) {
+      // dismiss dialog
+      Get.back();
+      ErrorSnackBar.displaySnackBar('Error', e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +84,7 @@ class _BookingsCheckoutState extends State<BookingsCheckout> {
               ),
               Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       width: MediaQuery.of(context).size.width,
@@ -67,15 +93,15 @@ class _BookingsCheckoutState extends State<BookingsCheckout> {
                         onPressed: () {},
                       ),
                     ),
-                    SizedBox(height: 10),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       child: CustomDefaultButton(
                           text: "Pay with flutterwave",
-                          onPressed: () {},
+                          onPressed: () {
+                            payWithFlutterwave();
+                          },
                           isPrimaryButton: false),
                     ),
-                    SizedBox(height: 10),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       child: CustomDefaultButton(

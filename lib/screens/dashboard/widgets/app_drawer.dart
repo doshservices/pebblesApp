@@ -45,7 +45,7 @@ class AppDrawer extends StatelessWidget {
                         width: 15,
                       ),
                       Text(
-                        "${user.fullName!.split(' ').first}",
+                        "${user.fullName?.split(' ').first ?? "user"}",
                         style: TextStyle(
                           fontWeight: FontWeight.w900,
                           fontSize: 21,
