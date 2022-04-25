@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pebbles/constants.dart';
 import 'package:pebbles/model/apartment_model.dart';
@@ -34,10 +35,10 @@ class _BookApartmentState extends State<BookApartment> {
       setState(() {
         dateError = true;
       });
-    } else if (selectedStartDate!.compareTo(selectedEndDate!) >= 1) {
+    } else if (selectedStartDate!.compareTo(selectedEndDate!) >= 0) {
       // start date is > endDate
-      ErrorSnackBar.displaySnackBar(
-          'Error!', 'Check-in date cannot be greater than Check-out date');
+      ErrorSnackBar.displaySnackBar('Error!',
+          'Check-in date cannot be greater than or the same as Check-out date');
 
       setState(() {
         dateError = true;
@@ -64,6 +65,8 @@ class _BookApartmentState extends State<BookApartment> {
         difference = 1;
       }
       apartmentBooking.bookingAmount = difference * (apartment.price ?? 0);
+
+      //if(inputNoOfGuest > apartment.noo)
       apartmentBooking.numberOfGuests = inputNoOfGuest;
 
       Navigator.of(context).pushNamed(KBookApartmentPreview,
@@ -104,11 +107,13 @@ class _BookApartmentState extends State<BookApartment> {
     setState(() {
       if (startDateSelected) {
         selectedStartDate = DateTime.parse(args.value.toString());
+        selectedEndDate = selectedStartDate?.add(Duration(days: 1));
       } else {
         selectedEndDate = DateTime.parse(args.value.toString());
       }
 
       dateError = false;
+      Get.back();
     });
 
     // validate start and end date

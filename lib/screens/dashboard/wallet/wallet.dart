@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:pebbles/bloc/services.dart';
 import 'package:pebbles/constants.dart';
+import 'package:pebbles/model/transaction_model.dart';
 import 'package:pebbles/model/wallet_model.dart';
 import 'package:pebbles/provider/wallet_api.dart';
 import 'package:pebbles/utils/shared/custom_default_button.dart';
@@ -15,6 +16,7 @@ class WalletPage extends StatefulWidget {
 
 class _WalletPageState extends State<WalletPage> {
   WalletModel _walletModel = WalletModel();
+  TransactionResponse transactionResponse = TransactionResponse();
 
   Future<WalletModel> getCartItems() async {
     String userToken = await Services.getUserToken();
@@ -24,6 +26,16 @@ class _WalletPageState extends State<WalletPage> {
     _walletModel = await walletAPI.getUserWallet();
 
     return _walletModel;
+  }
+
+  Future<TransactionResponse> getUserTransactions() async {
+    String userToken = await Services.getUserToken();
+
+    WalletAPI walletAPI = WalletAPI(token: userToken);
+    TransactionResponse tranasctionResponse =
+        await walletAPI.getUsersTransactions();
+
+    return tranasctionResponse;
   }
 
   @override
@@ -187,11 +199,29 @@ class _WalletPageState extends State<WalletPage> {
                     SizedBox(
                       height: 10,
                     ),
-                    WalletItem(),
-                    WalletItem(),
-                    WalletItem(),
-                    WalletItem(),
-                    WalletItem(),
+                    FutureBuilder(
+                        future: getUserTransactions(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                              ),
+                            );
+                          } else if(snapshot.connectionState == ConnectionState.done){
+                            if(transactionResponse.status == "error"){
+                              
+                            }
+                          }
+                          return WalletItem();
+                        }),
                   ],
                 ),
               ),

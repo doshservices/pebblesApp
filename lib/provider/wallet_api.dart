@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:pebbles/model/apartment_model.dart';
 import 'package:pebbles/config.dart' as config;
 import 'package:pebbles/model/http_exception.dart';
+import 'package:pebbles/model/transaction_model.dart';
 import 'package:pebbles/model/wallet_model.dart';
 
 /// Wallet API requests and responses
@@ -11,11 +12,10 @@ class WalletAPI {
 
   WalletAPI({required this.token});
 
-  /// get Wallet by location
+  /// get Wallet
   Future<WalletModel> getUserWallet() async {
     try {
-      var uri = Uri.parse(
-          '${config.baseUrl}/api/wallet');
+      var uri = Uri.parse('${config.baseUrl}/api/wallet');
 
       final response = await get(
         uri,
@@ -34,9 +34,7 @@ class WalletAPI {
       WalletModel walletModel = WalletModel.fromJson(resData);
 
       return walletModel;
-    }
-    
-     catch (error) {
+    } catch (error) {
       WalletModel walletModel =
           WalletModel(message: error.toString(), status: "error");
 
@@ -44,5 +42,36 @@ class WalletAPI {
     }
   }
 
-}
+  /// get transactions
+  Future<TransactionResponse> getUsersTransactions() async {
+    try {
+      var uri = Uri.parse('${config.baseUrl}/transactions');
 
+      final response = await get(
+        uri,
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Bearer $token"
+        },
+      );
+
+      var resData = json.decode(response.body);
+      print(resData);
+      print(response.body);
+
+      if (response.statusCode != 200) {
+        throw HttpException(resData["message"]);
+      }
+
+      // convert json response to WalletModel object
+      TransactionResponse transactionResponse = TransactionResponse.fromJson(resData);
+
+      return transactionResponse;
+    } catch (error) {
+      TransactionResponse response =
+          TransactionResponse(message: error.toString(), status: "error");
+
+      return response;
+    }
+  }
+}
