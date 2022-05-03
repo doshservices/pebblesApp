@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:pebbles/model/transaction_model.dart';
 import 'package:pebbles/utils/shared/rounded_raised_button.dart';
 import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
 
 class WalletHistoryDetail extends StatelessWidget {
+
+  Transactions transactions = Transactions();
+
   @override
   Widget build(BuildContext context) {
+   transactions = ModalRoute.of(context)?.settings.arguments as Transactions;
+
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,

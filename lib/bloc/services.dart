@@ -3,6 +3,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:pebbles/model/user_model.dart';
+import 'package:pebbles/provider/auth.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Services {
@@ -16,11 +19,10 @@ class Services {
     return userToken;
   }
 
-  static NumberFormat currency(context) {
-    Locale locale = Localizations.localeOf(context);
-    var format =
-        NumberFormat.simpleCurrency(locale: Platform.localeName, name: 'NGN');
+  static UserModel getUserProfile(BuildContext context) {
+    final auth = Provider.of<Auth>(context);
+    UserModel user = auth.user;
 
-    return format;
+    return user;
   }
 }

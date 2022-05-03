@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  String? labelText, initialValue;
-  Widget? icon;
-  bool obscureText;
-  TextInputType keyboardType;
-  TextEditingController? controller;
-  int lines;
-  bool enabled;
+  final String? labelText, initialValue;
+  final Widget? icon;
+  final bool obscureText;
+  final TextInputType keyboardType;
+  final TextEditingController? controller;
+  final int lines;
+  final bool enabled;
   final void Function()? iconPressed;
   final String? Function(String?)? validator, onSaved;
-  Color? textColor;
-  InputBorder? darkInputBorder;
+  final Color? textColor;
+  final InputBorder? darkInputBorder;
+  final Function(String)? onChanged;
 
   CustomTextFormField(
       {this.labelText,
@@ -26,6 +27,7 @@ class CustomTextFormField extends StatelessWidget {
       this.textColor,
       this.controller,
       this.onSaved,
+      this.onChanged,
       this.validator});
 
   @override
@@ -50,6 +52,7 @@ class CustomTextFormField extends StatelessWidget {
                   key: Key(labelText!),
                   controller: controller,
                   onSaved: onSaved,
+                  onChanged: onChanged,
                   initialValue: initialValue,
                   validator: validator,
                   minLines: lines,
@@ -85,12 +88,13 @@ class CustomTextFormField extends StatelessWidget {
                   ),
                 )
               : TextFormField(
-                  key: Key(labelText!),
+                  key: Key(labelText ?? ''),
                   controller: controller,
                   onSaved: onSaved,
                   minLines: lines,
                   maxLines: lines,
                   validator: validator,
+                  onChanged: onChanged,
                   initialValue: initialValue,
                   keyboardType: keyboardType,
                   obscureText: this.obscureText,

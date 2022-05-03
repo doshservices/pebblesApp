@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:pebbles/bloc/services.dart';
 import 'package:pebbles/constants.dart';
-import 'package:pebbles/model/user_model.dart';
 import 'package:pebbles/provider/auth.dart';
 import 'package:pebbles/utils/shared/bottom_sheets.dart';
 import 'package:pebbles/utils/shared/custom_default_button.dart';
 import 'package:pebbles/utils/shared/custom_textformfield.dart';
 import 'package:pebbles/utils/shared/error_snackbar.dart';
+import 'package:pebbles/utils/shared/rounded_raised_button.dart';
 import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
 import 'package:provider/provider.dart';
 
-class ChangePassword extends StatefulWidget {
+class ConfirmResetPassword extends StatefulWidget {
   @override
-  _ChangePasswordState createState() => _ChangePasswordState();
+  _ConfirmResetPasswordState createState() => _ConfirmResetPasswordState();
 }
 
-class _ChangePasswordState extends State<ChangePassword> {
-  String? oldPassword;
-  String? newPassword;
-  String? confirmNewPassword;
-  UserModel userProfile = UserModel();
+class _ConfirmResetPasswordState extends State<ConfirmResetPassword> {
+  String? token;
+  String? password;
+  String? confirmPassword;
+  bool _isLoading = false;
+
+  /// true if user is navigating from change password screen
+  bool? changePassword = false;
 
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  bool _isLoading = false;
-
-  changePasswordSubmit() async {
+  submitResetPassword() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -34,21 +34,18 @@ class _ChangePasswordState extends State<ChangePassword> {
       _isLoading = true;
     });
     try {
-      if (userProfile.password != oldPassword) {
-        throw "Invalid password";
-      }
-
       await Provider.of<Auth>(context, listen: false)
-          .forgotPassword(userProfile.email!);
+          .forgotPasswordCompletion(token!, password!);
 
       BottomSheets.modalBottomSheet(
           context: context,
           title: 'Success',
-          subtitle: 'A token has been sent to your email',
-          buttonText: 'Reset password',
-          onPressed: () => Navigator.of(context).pushNamed(
-              kConfirmResetPassword,
-              arguments: true)); // true : i.e user is logged in
+          subtitle: 'Password reset successful',
+          buttonText: changePassword! ? 'Back to settings' : null,
+          onPressed: changePassword!
+              ? () => Navigator.of(context).pushNamedAndRemoveUntil(
+                  KSettings, (Route<dynamic> route) => false)
+              : null);
     } catch (error) {
       ErrorSnackBar.displaySnackBar('Error', '${error.toString()}');
     } finally {
@@ -60,7 +57,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
-    userProfile = Services.getUserProfile(context);
+    changePassword = ModalRoute.of(context)?.settings.arguments as bool?;
 
     return Scaffold(
       body: Container(
@@ -69,7 +66,7 @@ class _ChangePasswordState extends State<ChangePassword> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/bg.png"), fit: BoxFit.cover),
+                image: AssetImage("assets/images/bg.png"), fit: BoxFit.fill),
             color: Colors.grey.withOpacity(0.2)),
         child: SingleChildScrollView(
           child: Form(
@@ -79,7 +76,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               children: [
                 TopBackNavigationWidget(),
                 Text(
-                  "Change password",
+                  "Reset password",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   textAlign: TextAlign.center,
                 ),
@@ -87,26 +84,72 @@ class _ChangePasswordState extends State<ChangePassword> {
                   height: 20,
                 ),
                 Text(
-                  "Validate your identity",
+                  "Kindly enter email token and your new password ",
                   style: TextStyle(
                     fontSize: 18,
                   ),
+                  // textAlign: TextAlign.center,
                 ),
                 SizedBox(
                   height: 60,
                 ),
                 CustomTextFormField(
-                  labelText: "Password",
+                  labelText: "Email token",
                   obscureText: true,
                   onSaved: (value) {
-                    oldPassword = value;
+                    token = value;
+
+                    return;
+                  },
+                  onChanged: (value) {
+                    token = value;
+                    return;
+                  },
+                  validator: (value) {
+                    // validate input
+                    if (value!.isEmpty) {
+                      return "Token required";
+                    }
+
+                    return null;
+                  },
+                ),
+                CustomTextFormField(
+                  labelText: "New password",
+                  obscureText: true,
+                  onSaved: (value) {
+                    password = value;
+
+                    return;
+                  },
+                  onChanged: (value) {
+                    password = value;
+                  },
+                  validator: (value) {
+                    // validate input
+                    if (value!.isEmpty) {
+                      return "Password required";
+                    }
+
+                    return null;
+                  },
+                ),
+                CustomTextFormField(
+                  labelText: "Confirm New password",
+                  obscureText: true,
+                  onSaved: (value) {
+                    confirmPassword = value;
 
                     return;
                   },
                   validator: (value) {
                     // validate input
                     if (value!.isEmpty) {
-                      return "Field required";
+                      return "Confirm password";
+                    }
+
+                    if (value != password) {
+                      return "Confirmation password does not match";
                     }
 
                     return null;
@@ -118,9 +161,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   child: CustomDefaultButton(
-                      text: "Confirm",
                       isLoading: _isLoading,
-                      onPressed: changePasswordSubmit),
+                      text: "Confirm",
+                      onPressed: submitResetPassword),
                 ),
                 SizedBox(
                   height: 20,

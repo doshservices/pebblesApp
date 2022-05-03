@@ -8,10 +8,13 @@ class BottomSheets {
       String? assetImageURL,
       String? title,
       String? subtitle,
+      bool showButton = true,
+      String? buttonText,
+      bool isDismissible = false,
       Function()? onPressed}) {
     return showModalBottomSheet(
         backgroundColor: Colors.transparent,
-        isDismissible: false,
+        isDismissible: isDismissible,
         context: context,
         builder: (ctx) {
           return Container(
@@ -57,18 +60,20 @@ class BottomSheets {
               ),
               SizedBox(height: 30),
               // button
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: CustomDefaultButton(
-                  onPressed: onPressed ??
-                      () {
-                        // Navigate to homePage and remove previously stacked screen
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            kLogin, (Route<dynamic> route) => false);
-                      },
-                  text: 'Login',
-                ),
-              ),
+              showButton
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: CustomDefaultButton(
+                        onPressed: onPressed ??
+                            () {
+                              // Navigate to homePage and remove previously stacked screen
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  kLogin, (Route<dynamic> route) => false);
+                            },
+                        text: buttonText ?? 'Login',
+                      ),
+                    )
+                  : SizedBox(height: 1),
             ]),
           );
         });

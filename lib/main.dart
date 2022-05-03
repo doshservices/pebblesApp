@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pebbles/constants.dart';
 import 'package:pebbles/provider/auth.dart';
+import 'package:pebbles/screens/auth/confirm_reset_password.dart';
 import 'package:pebbles/screens/dashboard/adds_on/adds_on.dart';
 import 'package:pebbles/screens/dashboard/apartment/book_apartment_preview.dart';
 import 'package:pebbles/screens/dashboard/bookings/bookings_checkout.dart';
 import 'package:pebbles/screens/dashboard/bookings/bookings_detail.dart';
 import 'package:pebbles/screens/dashboard/carts/carts_page.dart';
 import 'package:pebbles/screens/dashboard/payment/flutterwave_checkout.dart';
+import 'package:pebbles/screens/dashboard/profile/edit_profile.dart';
 import 'package:pebbles/screens/dashboard/profile/settings.dart';
 
 import 'package:pebbles/screens/splashscreen.dart';
@@ -105,9 +107,11 @@ class _MyAppState extends State<MyApp> {
               kCreateUserAccount: (ctx) => CreateUserAccount(),
               kLogin: (ctx) => LoginPage(),
               kResetPassword: (ctx) => ResetPassword(),
+              kConfirmResetPassword: (ctx) => ConfirmResetPassword(),
               kChangePassword: (ctx) => ChangePassword(),
               kDashboard: (ctx) => Dashboard(0),
               kProfile: (ctx) => Profile(),
+              kEditProfile: (ctx) => EditProfile(),
               kBookings: (ctx) => Bookings(),
               kBookingsDetail: (ctx) => BookingsDetails(),
               kWalletHistoryDetail: (ctx) => WalletHistoryDetail(),

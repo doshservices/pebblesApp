@@ -26,10 +26,12 @@ const kCompleteRegistration = "completeregistration";
 /// login screen
 const kLogin = "login";
 const kResetPassword = "resetpassword";
+const kConfirmResetPassword = "confirmresetpassword";
 const kChangePassword = "changepassword";
 const kCreateUserAccount = "createuseraccount";
 const kDashboard = "dashboard";
 const kProfile = "profile";
+const kEditProfile = "editprofile";
 const kBookings = "bookings";
 const kBookingsDetail = "bookingsdetails";
 const kWalletHistoryDetail = "wallethistorydetail";

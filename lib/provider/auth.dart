@@ -110,7 +110,7 @@ class Auth with ChangeNotifier {
 
       print(resData);
       if (resData["status"].toString().toUpperCase() != "ACTIVE") {
-        throw HttpException(resData["message"]);
+        throw resData["message"];
       }
     } on HttpException catch (error) {
       throw error;
@@ -136,7 +136,7 @@ class Auth with ChangeNotifier {
       print(resData);
 
       if (response.statusCode != 200) {
-        throw HttpException(resData["message"]);
+        throw resData["message"];
       }
 
       _token = resData["data"]["token"];
@@ -150,6 +150,7 @@ class Auth with ChangeNotifier {
       user.phoneNumber = resData["data"]["userDetails"]["phoneNumber"];
       user.profilePhoto = resData["data"]["userDetails"]["profilePictureUrl"];
       user.role = resData["data"]["userDetails"]["role"];
+      user.password = password;
 
       notifyListeners();
 
@@ -162,12 +163,18 @@ class Auth with ChangeNotifier {
         'fullName': user.fullName,
         'phoneNumber': user.phoneNumber,
         'profilePhoto': user.profilePhoto,
-        'role': user.role,
+        'role': user.role
       });
 
       prefs.setString("userData", userData);
-    } catch (error) {
-      throw error;
+    } on SocketException {
+      throw "No Internet connection";
+    } on HttpException {
+      throw "No Service found";
+    } on FormatException {
+      throw "Invalid data format";
+    } catch (e) {
+      throw e.toString();
     }
   }
 
@@ -189,10 +196,16 @@ class Auth with ChangeNotifier {
       print(resData);
 
       if (response.statusCode != 200) {
-        throw HttpException(resData["message"]);
+        throw resData["message"];
       }
-    } catch (error) {
-      throw error;
+    } on SocketException {
+      throw "No Internet connection";
+    } on HttpException {
+      throw "No Service found";
+    } on FormatException {
+      throw "Invalid data format";
+    } catch (e) {
+      throw e.toString();
     }
   }
 
@@ -209,11 +222,17 @@ class Auth with ChangeNotifier {
       );
       var resData = jsonDecode(response.body);
       if (response.statusCode != 200) {
-        throw HttpException(resData["message"]);
+        throw resData["message"];
       }
       return resData["message"];
-    } catch (error) {
-      throw error;
+    } on SocketException {
+      throw "No Internet connection";
+    } on HttpException {
+      throw "No Service found";
+    } on FormatException {
+      throw "Invalid data format";
+    } catch (e) {
+      throw e.toString();
     }
   }
 
@@ -230,11 +249,21 @@ class Auth with ChangeNotifier {
       );
       var resData = jsonDecode(response.body);
       if (response.statusCode != 200) {
-        throw HttpException(resData["message"]);
+        throw resData["message"];
       }
+
+      user.password = newPassword;
+
+      notifyListeners();
       return resData["message"];
-    } catch (error) {
-      throw error;
+    } on SocketException {
+      throw "No Internet connection";
+    } on HttpException {
+      throw "No Service found";
+    } on FormatException {
+      throw "Invalid data format";
+    } catch (e) {
+      throw e.toString();
     }
   }
 
@@ -252,13 +281,25 @@ class Auth with ChangeNotifier {
         },
         body: data,
       );
+
       var resData = jsonDecode(response.body);
       if (response.statusCode != 200) {
-        throw HttpException(resData["message"]);
+        throw resData["message"];
       }
+
+      user.password = newPassword;
+
+      notifyListeners();
+
       return resData["message"];
-    } catch (error) {
-      throw error;
+    } on SocketException {
+      throw "No Internet connection";
+    } on HttpException {
+      throw "No Service found";
+    } on FormatException {
+      throw "Invalid data format";
+    } catch (e) {
+      throw e.toString();
     }
   }
 
@@ -280,11 +321,17 @@ class Auth with ChangeNotifier {
       var resData = jsonDecode(response.body);
       print(resData);
       if (response.statusCode != 200) {
-        throw HttpException(resData["message"]);
+        throw resData["message"];
       }
       return resData["message"];
-    } catch (error) {
-      throw error;
+    } on SocketException {
+      throw "No Internet connection";
+    } on HttpException {
+      throw "No Service found";
+    } on FormatException {
+      throw "Invalid data format";
+    } catch (e) {
+      throw e.toString();
     }
   }
 
@@ -302,11 +349,17 @@ class Auth with ChangeNotifier {
       var resData = jsonDecode(response.body);
       print(resData);
       if (response.statusCode != 200) {
-        throw HttpException(resData["message"]);
+        throw resData["message"];
       }
       return resData["message"];
-    } catch (error) {
-      throw error;
+    } on SocketException {
+      throw "No Internet connection";
+    } on HttpException {
+      throw "No Service found";
+    } on FormatException {
+      throw "Invalid data format";
+    } catch (e) {
+      throw e.toString();
     }
   }
 
@@ -351,7 +404,7 @@ class Auth with ChangeNotifier {
       }
 
       if (response.statusCode != 200) {
-        throw HttpException(resData["message"]);
+        throw resData["message"];
       }
 
       user.phoneNumber = resData["data"]["user"]["phoneNumber"];
@@ -365,8 +418,14 @@ class Auth with ChangeNotifier {
 
       notifyListeners();
       return user;
-    } catch (error) {
-      throw error;
+    } on SocketException {
+      throw "No Internet connection";
+    } on HttpException {
+      throw "No Service found";
+    } on FormatException {
+      throw "Invalid data format";
+    } catch (e) {
+      throw e.toString();
     }
   }
 
@@ -481,7 +540,8 @@ class Auth with ChangeNotifier {
       // "firstName": userModel.firstName,
       // "lastName": userModel.lastName,
       "email": userModel.email,
-      "phoneNumber": userModel.phoneNumber
+      "phoneNumber": userModel.phoneNumber,
+      "fullName": userModel.fullName
     });
 
     try {
@@ -502,15 +562,22 @@ class Auth with ChangeNotifier {
       print(resData);
       if (response.statusCode != 200) {
         print(resData["message"].toString());
-        throw HttpException(resData["message"].toString());
+        throw resData["message"].toString();
       }
       user.email = userModel.email;
       user.phoneNumber = userModel.phoneNumber;
+      user.fullName = userModel.fullName;
       // user.firstName = userModel.firstName;
       // user.lastName = userModel.lastName;
       notifyListeners();
-    } catch (error) {
-      throw error;
+    } on SocketException {
+      throw "No Internet connection";
+    } on HttpException {
+      throw "No Service found";
+    } on FormatException {
+      throw "Invalid data format";
+    } catch (e) {
+      throw e.toString();
     }
   }
 
@@ -542,9 +609,14 @@ class Auth with ChangeNotifier {
       }
 
       notifyListeners();
-    } catch (error) {
-      print(error.toString());
-      throw error;
+    } on SocketException {
+      throw "No Internet connection";
+    } on HttpException {
+      throw "No Service found";
+    } on FormatException {
+      throw "Invalid data format";
+    } catch (e) {
+      throw e.toString();
     }
   }
 

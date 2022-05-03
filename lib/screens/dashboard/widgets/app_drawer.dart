@@ -70,9 +70,10 @@ class AppDrawer extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 children: [
                   ListTile(
-                    leading: Image.asset(
-                      "assets/images/image.png",
-                      width: 40,
+                    leading: Icon(
+                      Icons.book_online_outlined,
+                      size: 28,
+                      color: Theme.of(context).primaryColor,
                     ),
                     title: Text(
                       "Bookings and reservations",
@@ -91,30 +92,10 @@ class AppDrawer extends StatelessWidget {
                     height: 4,
                   ),
                   ListTile(
-                    leading: Image.asset(
-                      "assets/images/image.png",
-                      width: 40,
-                    ),
-                    title: Text(
-                      "List Apartments",
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pushNamed(kMyApartments);
-                    },
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  ListTile(
-                    leading: Image.asset(
-                      "assets/images/image.png",
-                      width: 40,
+                    leading: Icon(
+                      Icons.event_outlined,
+                      size: 28,
+                      color: Theme.of(context).primaryColor,
                     ),
                     title: Text(
                       "Events",
@@ -132,31 +113,14 @@ class AppDrawer extends StatelessWidget {
                   SizedBox(
                     height: 4,
                   ),
-                  ListTile(
-                    leading: Image.asset(
-                      "assets/images/image.png",
-                      width: 40,
-                    ),
-                    title: Text(
-                      "Withdrawal",
-                      style: TextStyle(
-                        fontFamily: 'Gilroy',
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).pushNamed(kWithdrawFunds);
-                    },
-                  ),
                   SizedBox(
                     height: 4,
                   ),
                   ListTile(
-                    leading: Image.asset(
-                      "assets/images/image.png",
-                      width: 40,
+                    leading: Icon(
+                      Icons.add_box_outlined,
+                      size: 28,
+                      color: Theme.of(context).primaryColor,
                     ),
                     title: Text(
                       "Adds-on",

@@ -35,9 +35,10 @@ class _ProfileState extends State<Profile> {
             children: [
               TopBackNavigationWidget(),
               ListTile(
-                leading: Image.asset(
-                  "assets/images/image.png",
-                  width: 40,
+                leading: Icon(
+                  Icons.account_box_rounded,
+                  size: 28,
+                  color: Theme.of(context).primaryColor,
                 ),
                 contentPadding: EdgeInsets.all(0),
                 title: Text(

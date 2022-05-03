@@ -5,12 +5,61 @@ import 'package:pebbles/provider/auth.dart';
 import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
 import 'package:provider/provider.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
 
   @override
+  State<Settings> createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  Auth auth = Auth();
+
+  Future<bool> _onBackPressed() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          "Logout",
+          style: TextStyle(
+            color: Colors.red.shade400,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Text(
+          "Are you sure you want to logout?",
+          style: TextStyle(color: Colors.black),
+        ),
+        actions: [
+          TextButton(
+            child: Text("NO"),
+            onPressed: () {
+              return Navigator.of(context).pop(false);
+            },
+          ),
+          TextButton(
+            child: Text(
+              "YES",
+              style: TextStyle(color: Colors.red.shade400),
+            ),
+            onPressed: () {
+              auth.logout();
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil(kLogin, (route) => false);
+
+              return;
+            },
+          ),
+        ],
+      ),
+    );
+
+    return Future.value(false);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<Auth>(context);
+    auth = Provider.of<Auth>(context);
 
     return Scaffold(
       body: Container(
@@ -27,9 +76,10 @@ class Settings extends StatelessWidget {
             children: [
               TopBackNavigationWidget(),
               ListTile(
-                leading: Image.asset(
-                  "assets/images/image.png",
-                  width: 40,
+                leading: Icon(
+                  Icons.settings,
+                  size: 28,
+                  color: Theme.of(context).primaryColor,
                 ),
                 contentPadding: EdgeInsets.zero,
                 title: Text(
@@ -47,23 +97,60 @@ class Settings extends StatelessWidget {
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: [
-                    SettingsItems(text: 'Edit profile'),
+                    SettingsItems(
+                      text: 'Edit profile',
+                      imageIcon: Icon(
+                        Icons.edit_outlined,
+                        size: 28,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pushNamed(kEditProfile);
+                      },
+                    ),
                     SettingsItems(
                       text: 'Reset password',
+                      imageIcon: Icon(
+                        Icons.password_outlined,
+                        size: 28,
+                        color: Theme.of(context).primaryColor,
+                      ),
                       onTap: () {
                         Navigator.of(context).pushNamed(kChangePassword);
                       },
                     ),
-                    SettingsItems(text: 'Help & support'),
-                    SettingsItems(text: 'Privacy policy'),
-                    SettingsItems(text: 'Terms & conditions'),
+                    SettingsItems(
+                      text: 'Help & support',
+                      imageIcon: Icon(
+                        Icons.help_outline_outlined,
+                        size: 28,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    SettingsItems(
+                      text: 'Privacy policy',
+                      imageIcon: Icon(
+                        Icons.privacy_tip_outlined,
+                        size: 28,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    SettingsItems(
+                      text: 'Terms & conditions',
+                      imageIcon: Icon(
+                        Icons.indeterminate_check_box_outlined,
+                        size: 28,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
                     SettingsItems(
                       text: 'Logout',
-                      onTap: () {
-                        auth.logout();
-                        Navigator.of(context)
-                            .pushNamedAndRemoveUntil(kLogin, (route) => false);
-                      },
+                      imageIcon: Icon(
+                        Icons.logout_outlined,
+                        size: 28,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      onTap: _onBackPressed,
                     ),
                   ],
                 ),
@@ -78,7 +165,7 @@ class Settings extends StatelessWidget {
 
 class SettingsItems extends StatelessWidget {
   final Function()? onTap;
-  final String? imageIcon;
+  final Widget? imageIcon;
   final String? text;
 
   SettingsItems({Key? key, this.text, this.onTap, this.imageIcon})
@@ -91,10 +178,7 @@ class SettingsItems extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: ListTile(
-          leading: Image.asset(
-            imageIcon ?? "assets/images/image.png",
-            width: 40,
-          ),
+          leading: imageIcon,
           title: Text(
             text ?? "",
             style: TextStyle(

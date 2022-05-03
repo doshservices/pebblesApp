@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pebbles/constants.dart';
+import 'package:pebbles/model/user_model.dart';
 import 'package:pebbles/provider/auth.dart';
 import 'package:pebbles/utils/shared/bottom_sheets.dart';
 import 'package:pebbles/utils/shared/custom_default_button.dart';
@@ -9,18 +10,18 @@ import 'package:pebbles/utils/shared/rounded_raised_button.dart';
 import 'package:pebbles/utils/shared/top_back_navigation_widget.dart';
 import 'package:provider/provider.dart';
 
-class ResetPassword extends StatefulWidget {
+class EditProfile extends StatefulWidget {
   @override
-  _ResetPasswordState createState() => _ResetPasswordState();
+  _EditProfileState createState() => _EditProfileState();
 }
 
-class _ResetPasswordState extends State<ResetPassword> {
+class _EditProfileState extends State<EditProfile> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  String? email;
+  UserModel userModel = UserModel();
   bool _isLoading = false;
 
-  resetPasswordSubmit() async {
+  editProfileSubmit() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -29,15 +30,14 @@ class _ResetPasswordState extends State<ResetPassword> {
       _isLoading = true;
     });
     try {
-      await Provider.of<Auth>(context, listen: false).forgotPassword(email!);
+      await Provider.of<Auth>(context, listen: false).updateUser(userModel);
 
       BottomSheets.modalBottomSheet(
           context: context,
           title: 'Success',
-          subtitle: 'A token has been sent to your email',
-          buttonText: 'Reset password',
-          onPressed: () =>
-              Navigator.of(context).pushNamed(kConfirmResetPassword));
+          subtitle: 'Profile Updated',
+          isDismissible: true,
+          showButton: false);
     } catch (error) {
       ErrorSnackBar.displaySnackBar('Error', '${error.toString()}');
     } finally {
@@ -49,6 +49,9 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<Auth>(context);
+    userModel = auth.user;
+
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(20),
@@ -69,7 +72,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   height: 10,
                 ),
                 Text(
-                  "Reset Password",
+                  "Edit Profile",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -79,18 +82,11 @@ class _ResetPasswordState extends State<ResetPassword> {
                 SizedBox(
                   height: 20,
                 ),
-                Text(
-                  "Please input your email, a link will be sent to you shortly to create a new password",
-                  style: TextStyle(fontSize: 18, fontFamily: 'Gilroy'),
-                  // textAlign: TextAlign.center,
-                ),
-                SizedBox(
-                  height: 60,
-                ),
                 CustomTextFormField(
-                  labelText: "Email Address",
+                  labelText: 'Email',
+                  initialValue: userModel.email ?? '',
                   onSaved: (value) {
-                    email = value;
+                    userModel.email = value;
 
                     return;
                   },
@@ -109,15 +105,49 @@ class _ResetPasswordState extends State<ResetPassword> {
                     return null;
                   },
                 ),
+                CustomTextFormField(
+                  labelText: 'Full name',
+                  initialValue: userModel.fullName ?? '',
+                  onSaved: (value) {
+                    userModel.fullName = value;
+
+                    return;
+                  },
+                  validator: (value) {
+                    // validate input
+                    if (value!.isEmpty) {
+                      return "Fullname required";
+                    }
+
+                    return null;
+                  },
+                ),
+                CustomTextFormField(
+                  labelText: 'Phone number',
+                  initialValue: userModel.phoneNumber ?? '',
+                  onSaved: (value) {
+                    userModel.phoneNumber = value;
+
+                    return;
+                  },
+                  validator: (value) {
+                    // validate input
+                    if (value!.isEmpty) {
+                      return "Phone number required";
+                    }
+
+                    return null;
+                  },
+                ),
                 SizedBox(
                   height: 120,
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   child: CustomDefaultButton(
-                      text: "Change",
+                      text: "Update",
                       isLoading: _isLoading,
-                      onPressed: resetPasswordSubmit),
+                      onPressed: editProfileSubmit),
                 ),
                 SizedBox(
                   height: 20,

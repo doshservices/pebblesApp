@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pebbles/bloc/services.dart';
 import 'package:pebbles/constants.dart';
 import 'package:pebbles/model/transaction_model.dart';
@@ -32,10 +33,9 @@ class _WalletPageState extends State<WalletPage> {
     String userToken = await Services.getUserToken();
 
     WalletAPI walletAPI = WalletAPI(token: userToken);
-    TransactionResponse tranasctionResponse =
-        await walletAPI.getUsersTransactions();
+    transactionResponse = await walletAPI.getUsersTransactions();
 
-    return tranasctionResponse;
+    return transactionResponse;
   }
 
   @override
@@ -44,6 +44,7 @@ class _WalletPageState extends State<WalletPage> {
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20),
         width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/images/bg.png"), fit: BoxFit.fill),
@@ -81,12 +82,12 @@ class _WalletPageState extends State<WalletPage> {
                                       ConnectionState.done) {
                                     if (_walletModel.status == 'error') {
                                       return Center(
-                                          child: Text('Could not get data',
+                                          child: Text('Could not load data',
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily: 'Gilroy',
                                                   fontWeight: FontWeight.w900,
-                                                  fontSize: 20.0)));
+                                                  fontSize: 16.0)));
                                     } else {
                                       return Column(
                                         crossAxisAlignment:
@@ -215,12 +216,43 @@ class _WalletPageState extends State<WalletPage> {
                                 ),
                               ),
                             );
-                          } else if(snapshot.connectionState == ConnectionState.done){
-                            if(transactionResponse.status == "error"){
-                              
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (transactionResponse.status == "error") {
+                              return Center(
+                                  child: Text('Could not load data',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'Gilroy',
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 16.0)));
+                            } else {
+                              if (transactionResponse
+                                      .data?.transactions?.length ==
+                                  0) {
+                                return Center(
+                                    child: Text('No transactions',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Gilroy',
+                                            fontWeight: FontWeight.w900,
+                                            fontSize: 16.0)));
+                              } else {
+                                return ListView.builder(
+                                    itemCount: transactionResponse
+                                            .data?.transactions?.length ??
+                                        0,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return WalletItem(
+                                          transaction: transactionResponse
+                                              .data!.transactions![index]);
+                                    });
+                              }
                             }
                           }
-                          return WalletItem();
+
+                          return Container();
                         }),
                   ],
                 ),
@@ -234,48 +266,57 @@ class _WalletPageState extends State<WalletPage> {
 }
 
 class WalletItem extends StatelessWidget {
-  const WalletItem({
+  final Transactions transaction;
+
+  WalletItem({
     Key? key,
+    required this.transaction,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          title: Row(
-            children: [
-              Text(
-                "Cubana",
-                style: TextStyle(fontFamily: 'Gilroy'),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(
-                "N30,000",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, fontFamily: 'Gilroy'),
-              ),
-            ],
+    DateTime? transactionDate = DateTime.tryParse(transaction.paymentDate!);
+
+    return Container(
+      child: Column(
+        children: [
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(
+              "${transaction.reason}",
+              style: TextStyle(fontFamily: 'Gilroy', fontSize: 16),
+            ),
+            subtitle: Text(
+              transactionDate != null
+                  ? "${DateFormat.yMd().add_jm().format(transactionDate)}"
+                  : '${transaction.paymentDate}',
+              style: TextStyle(fontFamily: 'Gilroy'),
+            ),
+            trailing: RichText(
+                text: TextSpan(
+                    text: '₦',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'Poppins',
+                        color: Colors.black),
+                    children: [
+                  TextSpan(
+                    text: '${transaction.amount ?? 0}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'Gilroy',
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                ])),
+            // onTap: () => Navigator.of(context).pushNamed(kWalletHistoryDetail, arguments: transaction),
           ),
-          subtitle: Text(
-            "10:46 AM  20 November, 2020",
-            style: TextStyle(fontFamily: 'Gilroy'),
-          ),
-          trailing: Image.asset(
-            "assets/images/arrowforward.png",
-            width: 40,
-          ),
-          onTap: () {
-            Navigator.of(context).pushNamed(kWalletHistoryDetail);
-          },
-        ),
-        Divider(
-          thickness: 1.5,
-        )
-      ],
+          Divider(
+            thickness: 1.5,
+          )
+        ],
+      ),
     );
   }
 }
