@@ -533,6 +533,10 @@ class Auth with ChangeNotifier {
   //   }
   // }
 
+  void getName () async{
+
+  }
+
   Future<void> updateUser(UserModel userModel) async {
     var data;
 

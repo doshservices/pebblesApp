@@ -89,8 +89,9 @@ class _FlutterwaveCheckoutState extends State<FlutterwaveCheckout> {
                               context: context,
                               title: 'Successful',
                               subtitle: 'Your payment is successful',
+                              buttonText: 'Okay',
                               onPressed: () {
-                                Get.close(3);
+                                Get.close(4);
                               });
                         }
                       }
