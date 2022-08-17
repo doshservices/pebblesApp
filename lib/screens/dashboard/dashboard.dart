@@ -75,17 +75,19 @@ class _DashboardState extends State<Dashboard> {
               style: TextStyle(color: Colors.black),
             ),
             actions: [
-              FlatButton(
-                child: Text("NO"),
+              MaterialButton(
+                child: Text("NO"), //lemme see
                 onPressed: () {
                   return Navigator.of(context).pop(false);
                 },
+                textColor: Colors.black,
               ),
-              FlatButton(
+              MaterialButton(
                 child: Text("YES"),
                 onPressed: () {
                   return Navigator.of(context).pop(true);
                 },
+                textColor: Colors.black,
               ),
             ],
           ),

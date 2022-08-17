@@ -18,7 +18,7 @@ class RoundedRaisedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      child: RaisedButton(
+      child: MaterialButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
         ),
