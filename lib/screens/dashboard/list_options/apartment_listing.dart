@@ -83,7 +83,8 @@ class ApartmentListing extends StatelessWidget {
                             Text(
                               "Select Image",
                               style: TextStyle(
-                                  color: Theme.of(context).accentColor),
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
                             ),
                             Icon(
                               Icons.keyboard_arrow_down,

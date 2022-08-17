@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import './widgets/slide_dots.dart';
 import 'package:pebbles/utils/shared/rounded_raised_button.dart';
-import 'package:pebbles/constants.dart';
 
 class WalkThrough extends StatefulWidget {
   @override
@@ -37,14 +36,12 @@ class _WalkThroughState extends State<WalkThrough> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _pageController.dispose();
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Timer.periodic(Duration(seconds: 5), (timer) {
       if (_currentPage < 3) {

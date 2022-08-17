@@ -14,7 +14,7 @@ class _RegisterPageThreeState extends State<RegisterPageThree> {
   Widget build(BuildContext context) {
     final argument =
         ModalRoute.of(context).settings.arguments as Map<String, Registration>;
-    Registration reg = argument["reg"];
+    // Registration reg = argument["reg"];
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(20),

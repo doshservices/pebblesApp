@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pebbles/constants.dart';
 
 class RoundedRaisedButton extends StatelessWidget {
-  bool isLoading;
-  String label;
-  Color labelColor, buttonColor;
-  Function onPressed;
+  final bool isLoading;
+  final String label;
+  final Color labelColor, buttonColor;
+  final Function onPressed;
 
   RoundedRaisedButton(
       {this.label,

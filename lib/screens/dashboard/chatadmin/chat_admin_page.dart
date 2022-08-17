@@ -32,7 +32,7 @@ class ChatAdminPage extends StatelessWidget {
                   ),
                   suffixIcon: Icon(
                     Icons.send,
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                   )),
             )
           ],

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pebbles/constants.dart';
-import 'package:pebbles/model/registration.dart';
-import 'package:pebbles/utils/shared/rounded_raised_button.dart';
 
 class Bookings extends StatefulWidget {
   @override

@@ -234,7 +234,8 @@ class HomePage extends StatelessWidget {
                 children: [
                   Text("See more",
                       style: TextStyle(
-                          fontSize: 16, color: Theme.of(context).accentColor)),
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.secondary)),
                 ],
               ),
               SizedBox(height: 20),
@@ -338,8 +339,8 @@ class ApartmentItem extends StatelessWidget {
 }
 
 class HomeWidget extends StatelessWidget {
-  String icon, title;
-  Color color;
+  final String icon, title;
+  final Color color;
   HomeWidget({this.color, this.icon, this.title});
 
   @override

@@ -4,8 +4,6 @@ import 'package:pebbles/constants.dart';
 import 'package:pebbles/screens/dashboard/adds_on/adds_on.dart';
 import 'package:pebbles/screens/dashboard/bookings/bookings_detail.dart';
 
-import 'package:pebbles/screens/splashscreen.dart';
-import 'package:pebbles/screens/auth/walkthrough.dart';
 import 'package:pebbles/screens/auth/register_page_one.dart';
 import 'package:pebbles/screens/auth/register_page_two.dart';
 import 'package:pebbles/screens/auth/register_page_three.dart';
@@ -50,7 +48,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -63,7 +60,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Pebbles Signatures',
       theme: ThemeData(
         primaryColor: kPrimaryColor,
-        accentColor: kAccentColor,
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: kAccentColor),
       ),
       home: RegisterPageOne(),
       routes: {

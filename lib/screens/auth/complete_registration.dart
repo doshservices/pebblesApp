@@ -84,8 +84,8 @@ class _CompleteRegistrationState extends State<CompleteRegistration> {
                         children: [
                           Text(
                             "Select Image",
-                            style:
-                                TextStyle(color: Theme.of(context).accentColor),
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.secondary),
                           ),
                           Icon(
                             Icons.keyboard_arrow_down,
@@ -101,7 +101,8 @@ class _CompleteRegistrationState extends State<CompleteRegistration> {
                   children: [
                     Text(
                       "Select Image",
-                      style: TextStyle(color: Theme.of(context).accentColor),
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary),
                     ),
                     Icon(
                       Icons.keyboard_arrow_down,

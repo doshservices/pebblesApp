@@ -108,7 +108,7 @@ class WalletPage extends StatelessWidget {
               Text(
                 "History",
                 style: TextStyle(
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                     fontWeight: FontWeight.bold,
                     fontSize: 20),
               ),
